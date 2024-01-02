@@ -5,14 +5,13 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 5rem;
+  padding: 15rem 5rem;
   max-height: 100vh;
-  overflow-y: hidden !important;
 
   &::before,
   &::after{
     content: "";
-    position: absolute;
+    position: fixed;
     z-index: -1;
 
     width: 50%;
@@ -35,12 +34,13 @@
 .header{
   position: fixed;
   top: 0;
-  padding: inherit;
+  padding: 4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
   width: 100%;
+  z-index: 2;
 
   h1{
     background: $logo-gradient;
@@ -64,9 +64,8 @@
   align-items: center;
   flex-direction: column;
   width: 100%;
-  margin-top: 10rem;
   min-height: 100vh;
-  overflow-y: scroll;
+  padding-top: 1rem;
 }
 
 .borderContainer{
@@ -118,6 +117,7 @@
   align-items: center;
   flex-direction: column;
   width: 100%;
+  min-height: 100vh;
 
   h1{
     text-align: center;
@@ -134,33 +134,159 @@
     margin-bottom: 2rem;
     width: 30%;
   }
+}
 
-  .linksTable{
-    width: 80%;
-    border-radius: 15px;
-    overflow: hidden;
-    border-collapse: collapse;
-    margin-top: 2rem;
-    
+.linksTable{
+  width: 80%;
+  border-radius: 10px;
+  overflow: hidden;
+  border-collapse: collapse;
+  margin-top: 4rem;
+  
 
-    th, td{
-      text-align: left;
-      padding: 15px;
-    }
+  th, td{
+    text-align: left;
+    padding: 15px;
+  }
 
-    thead{
-      background: $backdrop-gradient;
-    }
+  .rowText{
+    display: flex;
+    align-items: center;
+    gap: 7px;
 
-    a{
+    button{
+      all: unset;
       display: flex;
       align-items: center;
-      gap: 5px;
+      justify-content: center;
+      color: $font-color;
+      background: $backdrop-gradient;
+      padding: 5px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      transition: .3s;
+
+      svg{
+        font-size: 14px;
+      }
+
+      &:hover{
+        opacity: .8;
+      }
+    }
+  }
+
+  tr{
+    margin-bottom: 10px;
+  }
+
+  thead tr{
+    background: $backdrop-gradient;
+  }
+
+  tbody tr{
+    background: $background-glassy;
+    backdrop-filter: blur(5px);
+  }
+
+  a{
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    max-width: 300px;
+
+    .linkText{
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .linkIcon{
+    border-radius: 2px;
+    width: 20px;
+    aspect-ratio: 1/1;
+  }
+}
+
+
+/* Small devices (e.g., phones) */
+@media only screen and (max-width: 600px) {
+  .main{
+    padding: 2rem;
+
+    &::before,
+    &::after{
+      width: 100%;
     }
 
-    .linkIcon{
-      width: 20px;
-      aspect-ratio: 1/1;
+    &::before{
+      left: -50%;
     }
+  }
+
+  .header{
+    padding: 2rem;
+  }
+
+  .wrapper{
+    margin-top: 6rem;
+  }
+
+  .borderContainer {
+    width: 90%;
+  }
+
+  .hero{ 
+    
+    h1{
+      font-size: 32px;
+    }
+    p {
+      width: 70%;
+    }
+  }
+
+  .linksTable {
+    width: 95%;
+
+    a{
+      width: 200px;
+    }
+
+    tr th:not(:first-child),
+    tr td:not(:first-child) {
+      display: none !important;
+    }
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  .borderContainer {
+    width: 70%;
+  }
+
+  .hero p {
+    width: 50%;
+  }
+
+  .linksTable {
+    width: 85%;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  .borderContainer {
+    width: 50%;
+  }
+
+  .hero p {
+    width: 30%;
+  }
+
+  .linksTable {
+    width: 80%;
   }
 }

@@ -1,12 +1,14 @@
 "use client";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import styles from "../page.module.scss";
 import QRCode from "qrcode.react";
 import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function LinkTable() {
   const [data, setData] = useState([
     {
-      linkCode: "Bn41aCOlnxj",
+      linkCode: "",
       originalLink: "https://www.twitter.com/",
       clicks: 1313,
       status: "Active",
@@ -14,9 +16,49 @@ export default function LinkTable() {
       favicon: "",
     },
     {
-      linkCode: "Bn41aCOlnxj",
+      linkCode: "",
       originalLink: "https://www.youtube.com/",
-      clicks: 1313,
+      clicks: 3623,
+      status: "Active",
+      date: new Date(),
+      favicon: "",
+    },
+    {
+      linkCode: "",
+      originalLink: "https://www.figma.com/",
+      clicks: 532,
+      status: "Active",
+      date: new Date(),
+      favicon: "",
+    },
+    {
+      linkCode: "",
+      originalLink: "https://www.github.com/",
+      clicks: 354,
+      status: "Active",
+      date: new Date(),
+      favicon: "",
+    },
+    {
+      linkCode: "",
+      originalLink: "https://www.yeezy.com/",
+      clicks: 354,
+      status: "Active",
+      date: new Date(),
+      favicon: "",
+    },
+    {
+      linkCode: "",
+      originalLink: "https://trackerhub.vercel.app/s/1vW-nFbnR02F9BEnNPe5NBejHRGPt0QEGOYXLSePsC1k/best",
+      clicks: 5634,
+      status: "Active",
+      date: new Date(),
+      favicon: "",
+    },
+    {
+      linkCode: "",
+      originalLink: "https://nextjs.org/",
+      clicks: 5634,
       status: "Active",
       date: new Date(),
       favicon: "",
@@ -30,7 +72,7 @@ export default function LinkTable() {
           data.map(async (row) => {
             try {
               const faviconURL = `https://www.google.com/s2/favicons?sz=64&domain_url=${new URL(row.originalLink).hostname}`;
-              return { ...row, favicon: faviconURL };
+              return { ...row, favicon: faviconURL, linkCode: generateLinkCode() };
             } catch (error) {
               console.error("Error fetching favicon: ", error);
               return row;
@@ -43,6 +85,17 @@ export default function LinkTable() {
       fetchFavicon();
   }, []);
 
+  const generateLinkCode = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const length = 10;
+    let linkCode = '';
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      linkCode += characters.charAt(randomIndex);
+    }
+    return linkCode;
+  }
+
   const formatDate = (date: Date): string => {
     const options: Intl.DateTimeFormatOptions = {
       month: "short",
@@ -51,6 +104,16 @@ export default function LinkTable() {
     };
     return new Intl.DateTimeFormat("en-US", options).format(date);
   };
+
+  const copyLink = (link: string) => {
+    navigator.clipboard.writeText(link).then(
+        () => {
+            console.log(`Copied link`);
+        }, (err) => {
+            console.error(err);
+        }
+    );
+  }
 
   return (
     <table className={styles.linksTable}>
@@ -68,9 +131,14 @@ export default function LinkTable() {
         {data.map((row, index) => (
           <tr key={index}>
             <td>
-              <a href={`http://localhost:3000/${row.linkCode}`} target="_blank">
-                http://localhost:3000/{row.linkCode}
-              </a>
+              <span className={styles.rowText}>
+                <a href={`http://localhost:3000/${row.linkCode}`} target="_blank">
+                    <span className={styles.linkText}>http://localhost:3000/{row.linkCode}</span>
+                </a>
+                <button onClick={(e) => {copyLink(`http://localhost:3000/${row.linkCode}`)}}>
+                    <FontAwesomeIcon icon={faCopy}/>
+                </button>
+              </span>
             </td>
             <td>
               <a href={row.originalLink} target="_blank">
@@ -81,7 +149,7 @@ export default function LinkTable() {
                     className={styles.linkIcon}
                   />
                 )}
-                {row.originalLink}
+                <span className={styles.linkText}>{row.originalLink}</span>
               </a>
             </td>
             <td>
