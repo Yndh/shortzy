@@ -1,8 +1,166 @@
+@import 'variables.scss';
+
 .main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 6rem;
+  padding: 5rem;
+  max-height: 100vh;
+  overflow-y: hidden !important;
+
+  &::before,
+  &::after{
+    content: "";
+    position: absolute;
+    z-index: -1;
+
+    width: 50%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background: radial-gradient(circle, $background-accent-color 0%, $background-color 73%);
+  }
+
+  &::before{
+    left: -20%;
+    top: -20%;
+  }
+
+  &::after{
+    right: -20%;
+    bottom: -20%;
+  }
+}
+
+.header{
+  position: fixed;
+  top: 0;
+  padding: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+
+  h1{
+    background: $logo-gradient;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  ol{
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    gap: 15px;
+    color: $bold-font-color;
+  } 
+}
+
+.wrapper{
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 10rem;
   min-height: 100vh;
+  overflow-y: scroll;
+}
+
+.borderContainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  width: 50%;
+  background: $backdrop-gradient;
+  border: 1px solid #27282a;
+  border-radius: 10px;
+  padding: 10px 20px;
+  gap: 10px;
+  transition: .3s;
+
+  input{
+    all: unset;
+    width: 100%;
+    color: $font-color;
+  }
+  button{
+    color: $bold-font-color;
+    font-size: 14px;
+    background: #007575;
+    outline: none;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 5px;
+    text-wrap: nowrap;
+    transition: .3s;
+
+    &:hover{
+      opacity: .8;
+    }
+  }
+  svg{
+    height: 25px;
+    color: $font-color;
+  }
+
+  &:focus-within{
+    border-color: #838383;
+  }
+}
+
+.hero{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+
+  h1{
+    text-align: center;
+    font-size: 52px;
+    margin: 1rem 0;
+    background: $text-gradient;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  p{
+    text-align: center;
+    margin-bottom: 2rem;
+    width: 30%;
+  }
+
+  .linksTable{
+    width: 80%;
+    border-radius: 15px;
+    overflow: hidden;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    
+
+    th, td{
+      text-align: left;
+      padding: 15px;
+    }
+
+    thead{
+      background: $backdrop-gradient;
+    }
+
+    a{
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .linkIcon{
+      width: 20px;
+      aspect-ratio: 1/1;
+    }
+  }
 }
