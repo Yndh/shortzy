@@ -32,6 +32,13 @@ h1{
   color: $bold-font-color;
 }
 
+button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
 ::-webkit-scrollbar{
   display: none;
 }

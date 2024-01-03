@@ -5,8 +5,9 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 15rem 5rem;
+  padding: 8rem 5rem;
   max-height: 100vh;
+  overflow-y: hidden;
 
   &::before,
   &::after{
@@ -64,8 +65,10 @@
   align-items: center;
   flex-direction: column;
   width: 100%;
-  min-height: 100vh;
-  padding-top: 1rem;
+  min-height: 80vh;
+  padding-top: 100px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .borderContainer{
@@ -212,10 +215,9 @@
 }
 
 
-/* Small devices (e.g., phones) */
 @media only screen and (max-width: 600px) {
   .main{
-    padding: 2rem;
+    padding: 0px 2rem 2rem 2rem;
 
     &::before,
     &::after{
@@ -224,6 +226,16 @@
 
     &::before{
       left: -50%;
+    }
+
+    button{
+      border-radius: 50%;
+      padding: 10px 15px;
+      aspect-ratio: 1/1;
+      
+      .buttonText{
+        display: none;
+      }
     }
   }
 
@@ -254,6 +266,10 @@
 
     a{
       width: 200px;
+    }
+
+    td .rowText {
+      justify-content: center;
     }
 
     tr th:not(:first-child),
