@@ -19,6 +19,7 @@
     aspect-ratio: 1/1;
     border-radius: 50%;
     background: radial-gradient(circle, $background-accent-color 0%, $background-color 73%);
+    animation: pulse 5s ease-in-out infinite;
   }
 
   &::before {
@@ -29,6 +30,21 @@
   &::after {
     right: -20%;
     bottom: -20%;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 
@@ -329,19 +345,5 @@
 
   .linksTable {
     width: 85%;
-  }
-}
-
-@media only screen and (min-width: 1025px) {
-  .borderContainer {
-    width: 50%;
-  }
-
-  .hero p {
-    width: 30%;
-  }
-
-  .linksTable {
-    width: 80%;
   }
 }

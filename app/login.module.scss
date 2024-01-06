@@ -7,6 +7,7 @@
     align-items: center;
     align-items: center;
     height: 100vh;
+    padding: 2rem 5rem;
     overflow-y: hidden;
   
     &::before,
@@ -19,6 +20,7 @@
       aspect-ratio: 1/1;
       border-radius: 50%;
       background: radial-gradient(circle, $background-accent-color 0%, $background-color 73%);
+      animation: pulse 5s ease-in-out infinite;
     }
   
     &::before {
@@ -31,6 +33,21 @@
       bottom: -20%;
     }
 }
+
+@keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.7;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
 
 .formContainer{
     display: flex;
@@ -98,3 +115,18 @@
     }
 }
   
+@media only screen and (max-width: 600px) {
+    .main{
+        padding: 2rem;
+    }
+
+    .formContainer{
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1024px){
+    .formContainer{
+        width: 50%;
+    }
+}
