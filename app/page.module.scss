@@ -57,6 +57,17 @@
     gap: 15px;
     color: $bold-font-color;
   }
+
+  a{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 7px;
+    padding: 15px 25px;
+    border-radius: 15px;
+    background: $backdrop-gradient;
+    border: 1px solid #27282a;
+  }
 }
 
 .wrapper {
@@ -89,22 +100,6 @@
     all: unset;
     width: 100%;
     color: $font-color;
-  }
-
-  button {
-    color: $bold-font-color;
-    font-size: 14px;
-    background: #007575;
-    outline: none;
-    border: none;
-    padding: 15px 25px;
-    border-radius: 5px;
-    text-wrap: nowrap;
-    transition: .3s;
-
-    &:hover {
-      opacity: .8;
-    }
   }
 
   svg {
