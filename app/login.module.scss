@@ -118,6 +118,15 @@
 @media only screen and (max-width: 600px) {
     .main{
         padding: 2rem;
+
+        &::before,
+        &::after {
+          width: 100%;
+        }
+    
+        &::before {
+          left: -50%;
+        }
     }
 
     .formContainer{

@@ -1,5 +1,5 @@
 "use client";
-import { faCopy } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faChevronUp, faCopy } from "@fortawesome/free-solid-svg-icons";
 import styles from "../page.module.scss";
 import QRCode from "qrcode.react";
 import { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ interface LinkData {
   clicks: number;
   active: boolean;
   date: Date;
+  isOpen?: boolean;
 }
 
 export default function LinkTable() {
@@ -123,8 +124,8 @@ export default function LinkTable() {
         <tbody>
           {data.length > 0 ? (
             data.map((row, index) => (
-              <tr key={index}>
-                <td>
+              <tr key={index} className={row.isOpen ? styles.active : ''}>
+              <td>
                   <span className={styles.rowText}>
                     <a
                       href={`http://localhost:3000/${row.linkCode}`}
@@ -140,6 +141,20 @@ export default function LinkTable() {
                       }}
                     >
                       <FontAwesomeIcon icon={faCopy} />
+                    </button>
+                    <button
+                    onClick={() => {
+                      const updatedData = data.map((item, idx) => {
+                        if (idx === index) {
+                          return { ...item, isOpen: !item.isOpen };
+                        }
+                        return item;
+                      });
+                      setData(updatedData);
+                    }}
+                    className={styles.mobileButton}
+                    >
+                      <FontAwesomeIcon icon={row.isOpen ? faChevronUp : faChevronDown} />
                     </button>
                   </span>
                 </td>
