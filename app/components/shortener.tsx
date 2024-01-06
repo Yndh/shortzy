@@ -12,7 +12,14 @@ interface ShortenerProps{
 export default function Shortener({ stylesProps = styles }: ShortenerProps){
     const [url, setUrl] = useState<string>("");
 
-    const shortenButtonAction = () => {
+    const handleShortenButton = () => {
+        const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+
+        if (!url.match(urlRegex)) {
+            alert("Please enter a valid URL");
+            return;
+        }
+
         alert(url)
     }
 
@@ -20,7 +27,7 @@ export default function Shortener({ stylesProps = styles }: ShortenerProps){
         <div className={stylesProps.borderContainer}>
             <FontAwesomeIcon icon={faLink} />
             <input type="text" placeholder="Enter the link here" value={url} onChange={(e) => {setUrl(e.target.value)}}/>
-            <button onClick={shortenButtonAction}>
+            <button onClick={handleShortenButton}>
                 <span className={stylesProps.buttonText}>Shorten Now</span>
                 <FontAwesomeIcon icon={faAngleRight}/>    
             </button>
