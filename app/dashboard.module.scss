@@ -53,10 +53,10 @@
   top: 0;
   padding: 4rem;
   display: flex;
-  align-items: center;
   justify-content: space-between;
   flex-direction: row;
   width: 100%;
+  height: 30%;
   z-index: 2;
 
   h1 {
@@ -92,45 +92,52 @@
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  margin-top: 5rem;
+  margin-top: 6.5rem;
   width: 100%;
   height: 100vh;
 }
 
-.borderContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: row;
-  width: 50%;
-  background: $backdrop-gradient;
-  border: 1px solid $accent-color;
-  border-radius: 10px;
-  padding: 10px 20px;
-  gap: 10px;
-  transition: .3s;
-
-  input {
-    all: unset;
-    width: 100%;
-    color: $font-color;
+.shortenerContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 50%;
+  
+    .borderContainer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+      width: 100%;
+      background: $backdrop-gradient;
+      border: 1px solid $accent-color;
+      border-radius: 10px;
+      padding: 10px 20px;
+      gap: 10px;
+      transition: .3s;
+  
+      input {
+        all: unset;
+        width: 100%;
+        color: $font-color;
+      }
+  
+      svg {
+        height: 25px;
+        color: $font-color;
+      }
+  
+      &:focus-within {
+        border-color: #838383;
+      }
+    }
   }
-
-  svg {
-    height: 25px;
-    color: $font-color;
-  }
-
-  &:focus-within {
-    border-color: #838383;
-  }
-}
 
 .tableContainer {
   height: 80vh;
   width: 80%;
   overflow-y: auto;
-  margin-top: 1rem;
+  margin-top: 2rem;
 
   .linksTable {
     width: 100%;
@@ -218,6 +225,7 @@
         display: flex;
         align-items: center;
         gap: 15px;
+        cursor: pointer;
     }
 
     .actionContainer{

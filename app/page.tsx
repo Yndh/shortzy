@@ -2,6 +2,7 @@ import styles from "./page.module.scss";
 import Shortener from "./components/shortener";
 import LinksTable from "./components/linksTable";
 import Header from "./components/header";
+import SwitchToggleButton from "./components/switchToggleButton";
 
 export default function Home() {
 
@@ -17,6 +18,7 @@ export default function Home() {
           </p>
 
           <Shortener/>
+
           <LinksTable styles={styles}/>
         </div>
       </div>

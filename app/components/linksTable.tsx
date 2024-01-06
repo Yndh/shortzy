@@ -8,11 +8,11 @@ import {
   faPen,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-// import styles from "../page.module.scss";
 import QRCode from "qrcode.react";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 interface LinkTableProps {
   showActions?: boolean;
@@ -129,6 +129,7 @@ export default function LinkTable({ showActions = false, styles }: LinkTableProp
     navigator.clipboard.writeText(link).then(
       () => {
         console.log(`Copied link`);
+        toast.success("Copied link!")
       },
       (err) => {
         console.error(err);

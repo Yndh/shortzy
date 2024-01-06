@@ -33,7 +33,7 @@ export default function Register() {
         <h2>Let's get Started</h2>
         <span className={styles.description}>Sign up and shorten Your links</span>
 
-        <button type="button" onClick={googleButtonHandler}>
+        <button type="button" onClick={googleButtonHandler} className={styles.google}>
           <FontAwesomeIcon icon={faGoogle} />
           <span>Sign in with Google</span>
         </button>
