@@ -220,6 +220,13 @@
         gap: 15px;
     }
 
+    .actionContainer{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+    }
+
     .sortContainer{
         display: flex;
         align-items: center;
@@ -310,7 +317,7 @@
   }
 
   .wrapper {
-    margin-top: 11rem;
+    margin-top: 13rem;
   }
 
   .borderContainer {
@@ -343,8 +350,6 @@
 
     .linksTable {
         margin-top: 0;
-    
-
       a {
         width: 200px;
       }
@@ -360,6 +365,10 @@
 
       .mobileButton{
         display: flex !important;
+      }
+
+      .actionContainer{
+        width: 100%;
       }
 
       tr.active{

@@ -239,7 +239,7 @@ export default function LinkTable({ showActions = false, styles }: LinkTableProp
                   <td>{formatDate(row.date)}</td>
                   {showActions && (
                     <td>
-                      <div style={{display: "flex", gap: 7}}>
+                      <div className={styles.actionContainer}>
                         <button className={styles.tableButton}>
                           <FontAwesomeIcon icon={faPen} />
                         </button>
