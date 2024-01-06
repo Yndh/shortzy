@@ -38,10 +38,12 @@
     transform: scale(1);
     opacity: 1;
   }
+
   50% {
     transform: scale(.8);
     opacity: 0.7;
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
@@ -73,7 +75,7 @@
     gap: 15px;
     color: $bold-font-color;
 
-    a{
+    a {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -173,11 +175,17 @@
       padding: 15px;
     }
 
-    td.active{
+    th{
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+    }
+
+    td.active {
       color: $success-color;
     }
 
-    td.inactive{
+    td.inactive {
       color: $warning-color;
     }
 
@@ -185,7 +193,7 @@
       text-align: center;
       padding: 50px;
 
-      .emptyContainer{
+      .emptyContainer {
         width: 100%;
         height: 100%;
         display: flex;
@@ -193,12 +201,12 @@
         justify-content: center;
         flex-direction: column;
 
-        p{
+        p {
           margin: 0 0 10px 0;
           font-size: 14px;
         }
 
-        p:first-child{
+        p:first-child {
           font-size: 16px;
           color: $bold-font-color;
         }
@@ -238,6 +246,36 @@
       align-items: center;
       gap: 7px;
 
+    }
+
+    .thContainer {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .sortContainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding-top: 5px;
+
+      svg {
+        height: 15px;
+
+        &:last-of-type {
+          transform: translateY(-5px);
+        }
+      }
+
+      &.asc svg:last-of-type {
+        opacity: .5;
+      }
+
+      &.desc svg:first-of-type {
+        opacity: .5;
+      }
     }
 
     tr {
@@ -324,7 +362,7 @@
     }
   }
 
-  .tableContainer{
+  .tableContainer {
     width: 100%;
 
     .linksTable {
@@ -332,32 +370,32 @@
       a {
         width: 200px;
       }
-  
+
       td .rowText {
         justify-content: center;
       }
-  
+
       tr th:not(:first-child),
       tr td:not(:first-child) {
         display: none !important;
       }
 
-      .mobileButton{
+      .mobileButton {
         display: flex !important;
       }
 
-      tr.active{
+      tr.active {
         display: flex !important;
         flex-direction: column;
 
-        td:not(:nth-child(4)){
+        td:not(:nth-child(4)) {
           display: block !important;
         }
 
-        td:not(:first-child){
+        td:not(:first-child) {
           text-align: center;
 
-          a{
+          a {
             justify-content: center;
             width: 100%;
           }

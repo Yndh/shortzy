@@ -214,6 +214,35 @@
 
     }
 
+    .thContainer{
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .sortContainer{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding-top: 5px;
+
+        svg{
+            height: 15px;
+
+            &:last-of-type{
+                transform: translateY(-5px);
+            }
+        }
+
+        &.asc svg:last-of-type{
+            opacity: .5;
+        }
+        &.desc svg:first-of-type{
+            opacity: .5;
+        }
+    }
+
     tr {
       margin-bottom: 10px;
     }
