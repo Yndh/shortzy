@@ -4,97 +4,88 @@ import styles from "../page.module.scss";
 import QRCode from "qrcode.react";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
+
+interface LinkData {
+  linkCode: string;
+  originalLink: string;
+  clicks: number;
+  active: boolean;
+  date: Date;
+}
 
 export default function LinkTable() {
-  const [data, setData] = useState([
+  const [data, setData] = useState<LinkData[]>([
     {
       linkCode: "",
       originalLink: "https://www.twitter.com/",
       clicks: 1313,
-      status: "Active",
-      date: new Date(),
-      favicon: "",
+      active: true,
+      date: new Date()
     },
     {
       linkCode: "",
       originalLink: "https://www.youtube.com/",
       clicks: 3623,
-      status: "Active",
-      date: new Date(),
-      favicon: "",
+      active: true,
+      date: new Date()
     },
     {
       linkCode: "",
       originalLink: "https://www.figma.com/",
       clicks: 532,
-      status: "Active",
-      date: new Date(),
-      favicon: "",
+      active: true,
+      date: new Date()
     },
     {
       linkCode: "",
       originalLink: "https://www.github.com/",
       clicks: 354,
-      status: "Active",
-      date: new Date(),
-      favicon: "",
+      active: true,
+      date: new Date()
     },
     {
       linkCode: "",
       originalLink: "https://www.yeezy.com/",
       clicks: 354,
-      status: "Active",
-      date: new Date(),
-      favicon: "",
+      active: true,
+      date: new Date()
     },
     {
       linkCode: "",
       originalLink: "https://trackerhub.vercel.app/s/1vW-nFbnR02F9BEnNPe5NBejHRGPt0QEGOYXLSePsC1k/best",
       clicks: 5634,
-      status: "Active",
-      date: new Date(),
-      favicon: "",
+      active: false,
+      date: new Date()
     },
     {
       linkCode: "",
       originalLink: "https://nextjs.org/",
       clicks: 5634,
-      status: "Active",
-      date: new Date(),
-      favicon: "",
+      active: true,
+      date: new Date()
     },
-    
   ]);
 
   useEffect(() => {
-    const fetchFavicon = async () => {
-        const updatedData = await Promise.all(
-          data.map(async (row) => {
-            try {
-              const faviconURL = `https://www.google.com/s2/favicons?sz=64&domain_url=${new URL(row.originalLink).hostname}`;
-              return { ...row, favicon: faviconURL, linkCode: generateLinkCode() };
-            } catch (error) {
-              console.error("Error fetching favicon: ", error);
-              return row;
-            }
-          })
-        );
-        setData(updatedData);
-      };
-      
-      fetchFavicon();
+    const updatedData = data.map((row) => ({
+      ...row,
+      linkCode: generateLinkCode(),
+    }));
+    setData(updatedData);
   }, []);
 
   const generateLinkCode = () => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     const length = 10;
-    let linkCode = '';
+    let linkCode = "";
     for (let i = 0; i < length; i++) {
       const randomIndex = Math.floor(Math.random() * characters.length);
       linkCode += characters.charAt(randomIndex);
     }
     return linkCode;
-  }
+  };
 
   const formatDate = (date: Date): string => {
     const options: Intl.DateTimeFormatOptions = {
@@ -107,65 +98,88 @@ export default function LinkTable() {
 
   const copyLink = (link: string) => {
     navigator.clipboard.writeText(link).then(
-        () => {
-            console.log(`Copied link`);
-        }, (err) => {
-            console.error(err);
-        }
+      () => {
+        console.log(`Copied link`);
+      },
+      (err) => {
+        console.error(err);
+      }
     );
-  }
+  };
 
   return (
-    <table className={styles.linksTable}>
-      <thead>
-        <tr>
-          <th>Short Link</th>
-          <th>Original Link</th>
-          <th>QR Code</th>
-          <th>Clicks</th>
-          <th>Status</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((row, index) => (
-          <tr key={index}>
-            <td>
-              <span className={styles.rowText}>
-                <a href={`http://localhost:3000/${row.linkCode}`} target="_blank">
-                    <span className={styles.linkText}>http://localhost:3000/{row.linkCode}</span>
-                </a>
-                <button onClick={(e) => {copyLink(`http://localhost:3000/${row.linkCode}`)}}>
-                    <FontAwesomeIcon icon={faCopy}/>
-                </button>
-              </span>
-            </td>
-            <td>
-              <a href={row.originalLink} target="_blank">
-                {row.favicon && (
-                  <img
-                    src={row.favicon}
-                    alt="Favicon"
-                    className={styles.linkIcon}
-                  />
-                )}
-                <span className={styles.linkText}>{row.originalLink}</span>
-              </a>
-            </td>
-            <td>
-              <QRCode
-                value={`http://localhost:3000/${row.linkCode}`}
-                style={{ width: "50px", height: "50px" }}
-                bgColor="transparent"
-                fgColor="#C9CED6"
-              />
-            </td>
-            <td>{row.clicks}</td>
-            <td>{row.status}</td>
-            <td>{formatDate(row.date)}</td>
+    <div className={styles.tableContainer}>
+      <table className={styles.linksTable}>
+        <thead>
+          <tr>
+            <th>Short Link</th>
+            <th>Original Link</th>
+            <th>QR Code</th>
+            <th>Clicks</th>
+            <th>Status</th>
+            <th>Date</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {data.length > 0 ? (
+            data.map((row, index) => (
+              <tr key={index}>
+                <td>
+                  <span className={styles.rowText}>
+                    <a
+                      href={`http://localhost:3000/${row.linkCode}`}
+                      target="_blank"
+                    >
+                      <span className={styles.linkText}>
+                        http://localhost:3000/{row.linkCode}
+                      </span>
+                    </a>
+                    <button
+                      onClick={(e) => {
+                        copyLink(`http://localhost:3000/${row.linkCode}`);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faCopy} />
+                    </button>
+                  </span>
+                </td>
+                <td>
+                  <a href={row.originalLink} target="_blank">
+                    <Image
+                      src={`https://www.google.com/s2/favicons?sz=64&domain_url=${row.originalLink}`}
+                      width={20}
+                      height={20}
+                      alt="Favicon"
+                      className={styles.linkIcon}
+                    />
+                    <span className={styles.linkText}>{row.originalLink}</span>
+                  </a>
+                </td>
+                <td>
+                  <QRCode
+                    value={`http://localhost:3000/${row.linkCode}`}
+                    style={{ width: "50px", height: "50px" }}
+                    bgColor="transparent"
+                    fgColor="#C9CED6"
+                  />
+                </td>
+                <td>{row.clicks}</td>
+                <td className={row.active ? styles.active : styles.inactive}>{row.active ? "Active" : "Inactive"}</td>
+                <td>{formatDate(row.date)}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={6} className={styles.emptyData}>
+                <div className={styles.emptyContainer}>
+                  <p>Looks like there are no links at the moment.</p>
+                  <p>Why not create one and track its performance?</p>
+                </div>
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 }

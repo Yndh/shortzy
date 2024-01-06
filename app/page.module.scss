@@ -5,12 +5,12 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 8rem 5rem;
+  padding: 1rem 5rem;
   max-height: 100vh;
   overflow-y: hidden;
 
   &::before,
-  &::after{
+  &::after {
     content: "";
     position: fixed;
     z-index: -1;
@@ -21,18 +21,18 @@
     background: radial-gradient(circle, $background-accent-color 0%, $background-color 73%);
   }
 
-  &::before{
+  &::before {
     left: -20%;
     top: -20%;
   }
 
-  &::after{
+  &::after {
     right: -20%;
     bottom: -20%;
   }
 }
 
-.header{
+.header {
   position: fixed;
   top: 0;
   padding: 4rem;
@@ -43,35 +43,36 @@
   width: 100%;
   z-index: 2;
 
-  h1{
+  h1 {
     background: $logo-gradient;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
-  ol{
+  ol {
     display: flex;
     justify-content: space-between;
     list-style-type: none;
     gap: 15px;
     color: $bold-font-color;
-  } 
+  }
 }
 
-.wrapper{
+.wrapper {
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   flex-direction: column;
   width: 100%;
-  min-height: 80vh;
-  padding-top: 100px;
+  height: 80vh;
+  margin-top: 10rem;
   overflow-y: scroll;
   overflow-x: hidden;
 }
 
-.borderContainer{
+.borderContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -84,12 +85,13 @@
   gap: 10px;
   transition: .3s;
 
-  input{
+  input {
     all: unset;
     width: 100%;
     color: $font-color;
   }
-  button{
+
+  button {
     color: $bold-font-color;
     font-size: 14px;
     background: #007575;
@@ -100,29 +102,31 @@
     text-wrap: nowrap;
     transition: .3s;
 
-    &:hover{
+    &:hover {
       opacity: .8;
     }
   }
-  svg{
+
+  svg {
     height: 25px;
     color: $font-color;
   }
 
-  &:focus-within{
+  &:focus-within {
     border-color: #838383;
   }
 }
 
-.hero{
+.hero {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
+  margin-top: 7rem;
   min-height: 100vh;
 
-  h1{
+  h1 {
     text-align: center;
     font-size: 52px;
     margin: 1rem 0;
@@ -132,118 +136,157 @@
     -webkit-text-fill-color: transparent;
   }
 
-  p{
+  p {
     text-align: center;
     margin-bottom: 2rem;
     width: 30%;
   }
 }
 
-.linksTable{
+.tableContainer {
+  height: 80vh;
   width: 80%;
-  border-radius: 10px;
-  overflow: hidden;
-  border-collapse: collapse;
-  margin-top: 4rem;
-  
 
-  th, td{
-    text-align: left;
-    padding: 15px;
-  }
+  .linksTable {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    border-collapse: collapse;
+    margin-top: 4rem;
+    // min-height: 50vh;
 
-  .rowText{
-    display: flex;
-    align-items: center;
-    gap: 7px;
 
-    button{
-      all: unset;
+    th,
+    td {
+      text-align: left;
+      padding: 15px;
+    }
+
+    td.active{
+      color: $success-color;
+    }
+
+    td.inactive{
+      color: $warning-color;
+    }
+
+    td.emptyData {
+      text-align: center;
+      padding: 50px;
+
+      .emptyContainer{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        p{
+          margin: 0 0 10px 0;
+          font-size: 14px;
+        }
+
+        p:first-child{
+          font-size: 16px;
+          color: $bold-font-color;
+        }
+      }
+    }
+
+    .rowText {
       display: flex;
       align-items: center;
-      justify-content: center;
-      color: $font-color;
+      gap: 7px;
+
+      button {
+        all: unset;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $font-color;
+        background: $backdrop-gradient;
+        padding: 5px;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        transition: .3s;
+
+        svg {
+          font-size: 14px;
+        }
+
+        &:hover {
+          opacity: .8;
+        }
+      }
+    }
+
+    tr {
+      margin-bottom: 10px;
+    }
+
+    thead tr {
       background: $backdrop-gradient;
-      padding: 5px;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      transition: .3s;
+    }
 
-      svg{
-        font-size: 14px;
-      }
+    tbody tr {
+      background: $background-glassy;
+      backdrop-filter: blur(5px);
+    }
 
-      &:hover{
-        opacity: .8;
+    a {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      max-width: 300px;
+
+      .linkText {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
-  }
 
-  tr{
-    margin-bottom: 10px;
-  }
-
-  thead tr{
-    background: $backdrop-gradient;
-  }
-
-  tbody tr{
-    background: $background-glassy;
-    backdrop-filter: blur(5px);
-  }
-
-  a{
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    max-width: 300px;
-
-    .linkText{
-      display: block;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .linkIcon {
+      border-radius: 2px;
+      width: 20px;
+      aspect-ratio: 1/1;
     }
-  }
-
-  .linkIcon{
-    border-radius: 2px;
-    width: 20px;
-    aspect-ratio: 1/1;
   }
 }
 
 
 @media only screen and (max-width: 600px) {
-  .main{
+  .main {
     padding: 0px 2rem 2rem 2rem;
 
     &::before,
-    &::after{
+    &::after {
       width: 100%;
     }
 
-    &::before{
+    &::before {
       left: -50%;
     }
 
-    button{
+    button {
       border-radius: 50%;
       padding: 10px 15px;
       aspect-ratio: 1/1;
-      
-      .buttonText{
+
+      .buttonText {
         display: none;
       }
     }
   }
 
-  .header{
+  .header {
     padding: 2rem;
   }
 
-  .wrapper{
+  .wrapper {
     margin-top: 6rem;
   }
 
@@ -251,11 +294,12 @@
     width: 90%;
   }
 
-  .hero{ 
-    
-    h1{
+  .hero {
+
+    h1 {
       font-size: 32px;
     }
+
     p {
       width: 70%;
     }
@@ -264,7 +308,7 @@
   .linksTable {
     width: 95%;
 
-    a{
+    a {
       width: 200px;
     }
 
