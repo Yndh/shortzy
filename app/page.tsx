@@ -1,6 +1,6 @@
 import styles from "./page.module.scss";
 import Shortener from "./components/shortener";
-import Links from "./components/links";
+import LinksTable from "./components/linksTable";
 import Header from "./components/header";
 
 export default function Home() {
@@ -17,7 +17,7 @@ export default function Home() {
           </p>
 
           <Shortener/>
-          <Links/>
+          <LinksTable styles={styles}/>
         </div>
       </div>
     </main>
