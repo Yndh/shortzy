@@ -3,16 +3,24 @@ import styles from "../page.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
 
-export default function Header(){
-    return(
-        <div className={styles.header}>
-        <h1>Shortzy</h1>
+interface HeaderInterface {
+  links?: boolean;
+}
+
+export default function Header({ links = true }: HeaderInterface) {
+  return (
+    <div className={styles.header}>
+      <Link href={"/"}><h1>Shortzy</h1></Link>
+      {links && (
         <ol>
-          <li><Link href="/login">
-            Sign in
-            <FontAwesomeIcon icon={faArrowRightToBracket}/>
-            </Link></li>
+          <li>
+            <Link href="/login">
+              Sign in
+              <FontAwesomeIcon icon={faArrowRightToBracket} />
+            </Link>
+          </li>
         </ol>
-      </div>
-    )
+      )}
+    </div>
+  );
 }

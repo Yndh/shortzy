@@ -4,6 +4,7 @@ import styles from "../login.module.scss";
 import { faGithub, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { useState } from "react";
 import Link from "next/link";
+import Header from "../components/header";
 
 export default function Register() {
   const [error, setError] = useState<string>();
@@ -26,6 +27,8 @@ export default function Register() {
 
   return (
     <div className={styles.main}>
+        <Header links={false}/>
+
       <form onSubmit={submitHandler} className={styles.formContainer}>
         <h2>Let's get Started</h2>
         <span className={styles.description}>Sign up and shorten Your links</span>

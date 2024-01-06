@@ -56,17 +56,17 @@
     list-style-type: none;
     gap: 15px;
     color: $bold-font-color;
-  }
 
-  a{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 7px;
-    padding: 15px 25px;
-    border-radius: 15px;
-    background: $backdrop-gradient;
-    border: 1px solid #27282a;
+    a{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 7px;
+      padding: 15px 25px;
+      border-radius: 15px;
+      background: $backdrop-gradient;
+      border: 1px solid #27282a;
+    }
   }
 }
 
