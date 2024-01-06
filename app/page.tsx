@@ -7,7 +7,7 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <Header/>
+      <Header styles={styles}/>
       
       <div className={styles.wrapper}>
         <div className={styles.hero}>

@@ -6,7 +6,7 @@ import Header from "../components/header";
 export default function Dashboard() {
   return (
     <main className={styles.main}>
-      <Header shortener={true}/>
+      <Header shortener={true} styles={styles}/>
 
       <div className={styles.wrapper}>
           <LinksTable showActions={true} styles={styles}/>

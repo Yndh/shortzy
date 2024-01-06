@@ -27,7 +27,7 @@ export default function Register() {
 
   return (
     <div className={styles.main}>
-        <Header links={false}/>
+        <Header links={false} styles={styles}/>
 
       <form onSubmit={submitHandler} className={styles.formContainer}>
         <h2>Let's get Started</h2>

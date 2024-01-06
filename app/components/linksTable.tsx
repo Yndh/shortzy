@@ -137,15 +137,13 @@ export default function LinkTable({ showActions = false, styles }: LinkTableProp
   };
 
   const toggleMobileList = (index: number) => {
-    () => {
-      const updatedData = data.map((item, idx) => {
-        if (idx === index) {
+      const updatedData = getSortedData().map((item, id) => {
+        if (id === index) {
           return { ...item, isOpen: !item.isOpen };
         }
         return item;
       });
       setData(updatedData);
-    }
   }
 
   const sortByDate = () => {

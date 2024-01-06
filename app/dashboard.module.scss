@@ -292,28 +292,39 @@
     &::before {
       left: -50%;
     }
-
-    button {
-      border-radius: 50%;
-      padding: 10px 15px;
-      aspect-ratio: 1/1;
-
-      .buttonText {
-        display: none;
-      }
-    }
   }
 
   .header {
     padding: 2rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 25px;
+
+    ol{
+        position: fixed;
+        top: 0;
+        right: 0;
+        margin: 2rem 2rem 0 0;
+    }
   }
 
   .wrapper {
-    margin-top: 6rem;
+    margin-top: 11rem;
   }
 
   .borderContainer {
-    width: 90%;
+    width: 100%;
+
+    button {
+        border-radius: 50%;
+        padding: 10px 15px;
+        aspect-ratio: 1/1;
+  
+        .buttonText {
+          display: none !important;
+        }
+    }
   }
 
   .hero {
@@ -331,6 +342,8 @@
     width: 100%;
 
     .linksTable {
+        margin-top: 0;
+    
 
       a {
         width: 200px;
