@@ -111,8 +111,8 @@
       width: 100%;
       background: $backdrop-gradient;
       border: 1px solid $accent-color;
-      border-radius: 10px;
-      padding: 10px 20px;
+      border-radius: 25px;
+      padding: 10px 10px 10px 20px;
       gap: 10px;
       transition: .3s;
   
@@ -120,6 +120,10 @@
         all: unset;
         width: 100%;
         color: $font-color;
+      }
+
+      button{
+        border-radius: 12px;
       }
   
       svg {
