@@ -114,9 +114,13 @@
 
   button {
     width: 100%;
+
+    svg {
+      height: 18px;
+    }
   }
 
-  .google{
+  .google {
     background: $bold-font-color;
     color: $background-color;
   }

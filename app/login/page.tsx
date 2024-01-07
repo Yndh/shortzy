@@ -1,39 +1,55 @@
 "use client";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import styles from "../login.module.scss";
-import { faGithub, faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { useState } from "react";
-import Link from "next/link";
 import Header from "../components/header";
 
-export default function Register() {
-  const [error, setError] = useState<string>();
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub, faGoogle } from "@fortawesome/free-brands-svg-icons";
 
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    throw new Error("Function not implemented.");
-  };
+import { signIn, useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import { toast } from "react-toastify";
+
+export default function Register() {
+  const { data: session, status } = useSession();
+
+  if (status === "authenticated") {
+    redirect("/dashboard");
+  }
+  console.log(status);
 
   const googleButtonHandler = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     throw new Error("Function not implemented.");
   };
 
   const githubButtonHandler = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    throw new Error("Function not implemented.");
+    toast("Login Github");
+    try {
+      signIn("github");
+    } catch (err) {
+      toast.error(`${err}`);
+    }
   };
 
   return (
     <div className={styles.main}>
-        <Header links={false} styles={styles}/>
+      <Header links={false} styles={styles} />
 
-      <form onSubmit={submitHandler} className={styles.formContainer}>
+      <div className={styles.formContainer}>
         <h2>Let's get Started</h2>
-        <span className={styles.description}>Sign up and shorten Your links</span>
+        <span className={styles.description}>
+          Sign up and shorten Your links
+        </span>
 
-        <button type="button" onClick={googleButtonHandler} className={styles.google}>
+        <button
+          type="button"
+          onClick={googleButtonHandler}
+          className={styles.google}
+        >
           <FontAwesomeIcon icon={faGoogle} />
           <span>Sign in with Google</span>
         </button>
@@ -44,14 +60,14 @@ export default function Register() {
           <FontAwesomeIcon icon={faGithub} />
           <span>Sign in with GitHub</span>
         </button>
-        
-      {/* <span className={styles.pageLink}>
+
+        {/* <span className={styles.pageLink}>
         <span>Already a member? </span>
         <Link href={"/login"} className={styles.link}>
           Sign in!
         </Link>
       </span> */}
-      </form>
+      </div>
     </div>
   );
 }
