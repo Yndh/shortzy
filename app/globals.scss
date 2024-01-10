@@ -1,6 +1,6 @@
 @import 'variables.scss';
 
-:root{
+:root {
   --background-color: $background-color;
   --background-accent-color: $background-accent-color;
   --font-color: $font-color;
@@ -28,7 +28,7 @@ a {
   text-decoration: none;
 }
 
-h1{
+h1 {
   color: $bold-font-color;
 }
 
@@ -52,7 +52,7 @@ button {
   }
 }
 
-.switchContainer{
+.switchContainer {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,10 +64,10 @@ button {
   box-sizing: border-box;
   transition: .3s;
 
-  input{
+  input {
     display: none;
 
-    &:checked ~ .switchLabel{
+    &:checked~.switchLabel {
       // justify-content: flex-end;
 
       .sliderCircle {
@@ -77,7 +77,7 @@ button {
     }
   }
 
-  .switchLabel{
+  .switchLabel {
     position: relative;
     display: flex;
     align-items: center;
@@ -85,8 +85,8 @@ button {
     height: 100%;
     padding: 2px 5px;
     box-sizing: border-box;
-  
-    .sliderCircle{
+
+    .sliderCircle {
       display: block;
       background: $background-accent-color;
       // background: #007575;
@@ -100,7 +100,7 @@ button {
 
 }
 
-.row{
+.row {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -108,6 +108,50 @@ button {
   margin-top: 20px;
 }
 
-::-webkit-scrollbar{
+.borderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 15px 25px;
+  border-radius: 25px;
+  background: $backdrop-gradient;
+  border: 1px solid $accent-color;
+  cursor: pointer;
+
+  img {
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+  }
+}
+
+.logout {
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: $backdrop-gradient;
+  border: 1px solid $accent-color;
+  border-radius: 25px;
+  aspect-ratio: 1/1;
+  transition: .3s;
+
+  svg {
+    transition: .3s;
+  }
+
+  &:hover {
+    box-shadow: 0px 0px 24px 0px $error-color;
+    opacity: .8;
+
+    svg {
+      color: $error-color;
+    }
+  }
+}
+
+::-webkit-scrollbar {
   display: none;
 }

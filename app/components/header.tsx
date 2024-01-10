@@ -1,9 +1,17 @@
+"use client";
+
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRightFromBracket,
+  faArrowRightToBracket,
+} from "@fortawesome/free-solid-svg-icons";
 import Shortener from "./shortener";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "../utils/authOptions";
+import Image from "next/image";
+import { signOut, useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 interface HeaderInterface {
   links?: boolean;
@@ -11,15 +19,20 @@ interface HeaderInterface {
   styles: { [key: string]: string };
 }
 
-export default async function Header({
+export default function Header({
   links = true,
   shortener = false,
   styles,
 }: HeaderInterface) {
-  const session = await getServerSession(authOptions);
+  const { data: session } = useSession();
   console.log("================================");
 
   console.log(session?.user);
+
+  const logoutHandler = () => {
+    signOut();
+    redirect("/");
+  };
 
   return (
     <div className={styles.header}>
@@ -29,12 +42,34 @@ export default async function Header({
       {shortener && <Shortener stylesProps={styles} />}
       {links && (
         <ol>
-          <li>
-            <Link href="/login">
-              Sign in
-              <FontAwesomeIcon icon={faArrowRightToBracket} />
-            </Link>
-          </li>
+          {session?.user ? (
+            <>
+              <li>
+                <div className="borderContainer">
+                  <Image
+                    src={`${session.user.image}`}
+                    width={30}
+                    height={30}
+                    alt="pfp"
+                  />
+                  <p>{session.user.name}</p>
+                </div>
+              </li>
+
+              <li>
+                <button className="logout" onClick={logoutHandler}>
+                  <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                </button>
+              </li>
+            </>
+          ) : (
+            <li>
+              <Link href="/login">
+                Sign in
+                <FontAwesomeIcon icon={faArrowRightToBracket} />
+              </Link>
+            </li>
+          )}
         </ol>
       )}
     </div>

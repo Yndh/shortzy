@@ -1,13 +1,13 @@
 /** @type {import('next').NextConfig} */
-const path = require('path');
+const path = require("path");
 
 const nextConfig = {
-    sassOptions: {
-        includePaths: [path.join(__dirname, 'styles')],
-    },
-    images: {
-        domains: ["www.google.com"]
-    }
-}
+  sassOptions: {
+    includePaths: [path.join(__dirname, "styles")],
+  },
+  images: {
+    domains: ["www.google.com", "avatars.githubusercontent.com"],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
