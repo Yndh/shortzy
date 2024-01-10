@@ -7,8 +7,6 @@ import {
   faArrowRightToBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import Shortener from "./shortener";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../utils/authOptions";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";

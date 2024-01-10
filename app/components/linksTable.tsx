@@ -13,6 +13,9 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { toast } from "react-toastify";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 interface LinkTableProps {
   showActions?: boolean;
@@ -20,116 +23,68 @@ interface LinkTableProps {
 }
 
 interface LinkData {
-  linkCode: string;
-  originalLink: string;
+  shortId: string;
+  originalUrl: string;
   clicks: number;
   active: boolean;
-  date: Date;
+  createdAt: Date;
   isOpen?: boolean;
 }
 
-export default function LinkTable({ showActions = false, styles }: LinkTableProps) {
+export default function LinkTable({
+  showActions = false,
+  styles,
+}: LinkTableProps) {
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-  const [data, setData] = useState<LinkData[]>([
-      {
-        linkCode: "",
-        originalLink: "https://www.twitter.com/",
-        clicks: 1313,
-        active: true,
-        date: new Date('2024-01-04T08:00:00'),
-      },
-      {
-        linkCode: "",
-        originalLink: "https://www.youtube.com/",
-        clicks: 3623,
-        active: true,
-        date: new Date('2024-01-05T14:30:00'),
-      },
-      {
-        linkCode: "",
-        originalLink: "https://www.figma.com/",
-        clicks: 532,
-        active: true,
-        date: new Date('2024-01-06T10:45:00'),
-      },
-      {
-        linkCode: "",
-        originalLink: "https://www.github.com/",
-        clicks: 354,
-        active: true,
-        date: new Date('2024-01-04T19:20:00'),
-      },
-      {
-        linkCode: "",
-        originalLink: "https://www.yeezy.com/",
-        clicks: 354,
-        active: true,
-        date: new Date('2024-01-05T09:05:00'),
-      },
-      {
-        linkCode: "",
-        originalLink: "https://trackerhub.vercel.app/s/1vW-nFbnR02F9BEnNPe5NBejHRGPt0QEGOYXLSePsC1k/best",
-        clicks: 5634,
-        active: false,
-        date: new Date('2024-01-06T16:15:00'),
-      },
-      {
-        linkCode: "",
-        originalLink: "https://nextjs.org/",
-        clicks: 5634,
-        active: true,
-        date: new Date('2024-01-04T12:10:00'),
-      },
-      {
-        linkCode: "",
-        originalLink: "https://facebook.com/",
-        clicks: 5634,
-        active: true,
-        date: new Date('2024-01-05T20:55:00'),
-      },
-      {
-        linkCode: "",
-        originalLink: "https://discord.gg/",
-        clicks: 5634,
-        active: true,
-        date: new Date('2024-01-06T06:40:00'),
-      },
-  ]);
+  const [data, setData] = useState<LinkData[]>([]);
 
   useEffect(() => {
-    const updatedData = data.map((row) => ({
-      ...row,
-      linkCode: generateLinkCode(),
-    }));
-    setData(updatedData);
+    const fetchData = async () => {
+      try {
+        fetch("/api/shorten")
+          .then((res) => res.json())
+          .then((data: any) => {
+            if ("error" in data) {
+              toast.error("Failed to fetch links");
+              console.error(`Failed to fetch links ${data.error}`);
+              return;
+            }
+
+            const urls = data.urls;
+            console.log(urls);
+
+            const urlsData = urls.map((url: LinkData) => ({
+              shortId: url.shortId,
+              originalUrl: url.originalUrl,
+              clicks: url.clicks,
+              active: url.active,
+              createdAt: new Date(url.createdAt),
+            }));
+
+            setData(urlsData);
+          });
+      } catch (e) {
+        console.error(`Cant fetch data: ${e}`);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const generateLinkCode = () => {
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const length = 10;
-    let linkCode = "";
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      linkCode += characters.charAt(randomIndex);
-    }
-    return linkCode;
-  };
-
-  const formatDate = (date: Date): string => {
+  const formatDate = (createdAt: Date): string => {
     const options: Intl.DateTimeFormatOptions = {
       month: "short",
       day: "2-digit",
       year: "numeric",
     };
-    return new Intl.DateTimeFormat("en-US", options).format(date);
+    return new Intl.DateTimeFormat("en-US", options).format(createdAt);
   };
 
   const copyLink = (link: string) => {
     navigator.clipboard.writeText(link).then(
       () => {
         console.log(`Copied link`);
-        toast.success("Copied link!")
+        toast.success("Copied link!");
       },
       (err) => {
         console.error(err);
@@ -138,23 +93,27 @@ export default function LinkTable({ showActions = false, styles }: LinkTableProp
   };
 
   const toggleMobileList = (index: number) => {
-      const updatedData = getSortedData().map((item, id) => {
-        if (id === index) {
-          return { ...item, isOpen: !item.isOpen };
-        }
-        return item;
-      });
-      setData(updatedData);
-  }
+    const upcreatedAtdData = getSortedData().map((item, id) => {
+      if (id === index) {
+        return { ...item, isOpen: !item.isOpen };
+      }
+      return item;
+    });
+    setData(upcreatedAtdData);
+  };
 
-  const sortByDate = () => {
-    sortDirection === "asc" ? setSortDirection("desc") : setSortDirection("asc");
-  }
+  const sortBycreatedAt = () => {
+    sortDirection === "asc"
+      ? setSortDirection("desc")
+      : setSortDirection("asc");
+  };
 
   const getSortedData = () => {
-    const sortedData = [...data].sort((a, b) => a.date.getTime() - b.date.getTime());
+    const sortedData = [...data].sort(
+      (a, b) => a.createdAt.getTime() - b.createdAt.getTime()
+    );
     return sortDirection === "asc" ? sortedData : sortedData.reverse();
-  }
+  };
 
   return (
     <div className={styles.tableContainer}>
@@ -167,13 +126,17 @@ export default function LinkTable({ showActions = false, styles }: LinkTableProp
             <th>Clicks</th>
             <th>Status</th>
             <th>
-              <div className={styles.thContainer} onClick={sortByDate}>
-                Date
-                <div className={`${styles.sortContainer} ${(sortDirection === "asc" ? styles.asc : styles.desc)}`}>
-                  <FontAwesomeIcon icon={faCaretUp}/>
-                  <FontAwesomeIcon icon={faCaretDown}/>
-                </div> 
-              </div> 
+              <div className={styles.thContainer} onClick={sortBycreatedAt}>
+                createdAt
+                <div
+                  className={`${styles.sortContainer} ${
+                    sortDirection === "asc" ? styles.asc : styles.desc
+                  }`}
+                >
+                  <FontAwesomeIcon icon={faCaretUp} />
+                  <FontAwesomeIcon icon={faCaretDown} />
+                </div>
+              </div>
             </th>
             {showActions && <th>Actions</th>}
           </tr>
@@ -186,17 +149,17 @@ export default function LinkTable({ showActions = false, styles }: LinkTableProp
                   <td>
                     <span className={styles.rowText}>
                       <a
-                        href={`http://localhost:3000/${row.linkCode}`}
+                        href={`http://localhost:3000/${row.shortId}`}
                         target="_blank"
                       >
                         <span className={styles.linkText}>
-                          http://localhost:3000/{row.linkCode}
+                          http://localhost:3000/{row.shortId}
                         </span>
                       </a>
                       <button
                         className={styles.tableButton}
                         onClick={(e) => {
-                          copyLink(`http://localhost:3000/${row.linkCode}`);
+                          copyLink(`http://localhost:3000/${row.shortId}`);
                         }}
                       >
                         <FontAwesomeIcon icon={faCopy} />
@@ -212,22 +175,20 @@ export default function LinkTable({ showActions = false, styles }: LinkTableProp
                     </span>
                   </td>
                   <td>
-                    <a href={row.originalLink} target="_blank">
+                    <a href={row.originalUrl} target="_blank">
                       <Image
-                        src={`https://www.google.com/s2/favicons?sz=64&domain_url=${row.originalLink}`}
+                        src={`https://www.google.com/s2/favicons?sz=64&domain_url=${row.originalUrl}`}
                         width={20}
                         height={20}
                         alt="Favicon"
                         className={styles.linkIcon}
                       />
-                      <span className={styles.linkText}>
-                        {row.originalLink}
-                      </span>
+                      <span className={styles.linkText}>{row.originalUrl}</span>
                     </a>
                   </td>
                   <td>
                     <QRCode
-                      value={`http://localhost:3000/${row.linkCode}`}
+                      value={`http://localhost:3000/${row.shortId}`}
                       style={{ width: "50px", height: "50px" }}
                       bgColor="transparent"
                       fgColor="#C9CED6"
@@ -237,14 +198,14 @@ export default function LinkTable({ showActions = false, styles }: LinkTableProp
                   <td className={row.active ? styles.active : styles.inactive}>
                     {row.active ? "Active" : "Inactive"}
                   </td>
-                  <td>{formatDate(row.date)}</td>
+                  <td>{formatDate(row.createdAt)}</td>
                   {showActions && (
                     <td>
                       <div className={styles.actionContainer}>
                         <button className={styles.tableButton}>
                           <FontAwesomeIcon icon={faPen} />
                         </button>
-                        
+
                         <button className={styles.tableButton}>
                           <FontAwesomeIcon icon={faTrash} />
                         </button>
@@ -256,7 +217,7 @@ export default function LinkTable({ showActions = false, styles }: LinkTableProp
             })
           ) : (
             <tr>
-              <td colSpan={6} className={styles.emptyData}>
+              <td colSpan={7} className={styles.emptyData}>
                 <div className={styles.emptyContainer}>
                   <p>Looks like there are no links at the moment.</p>
                   <p>Why not create one and track its performance?</p>

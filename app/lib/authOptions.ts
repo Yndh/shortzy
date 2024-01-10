@@ -23,7 +23,7 @@ export const authOptions: NextAuthOptions = {
           data: {
             email: user.email as string,
             name: user.name as string,
-            provider: "github",
+            provider: account?.provider as string,
           },
         });
       }
