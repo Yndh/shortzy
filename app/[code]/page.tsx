@@ -1,20 +1,26 @@
-export default async function LinkRedirect({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const options = {
-    method: "GET",
-    body: JSON.stringify(params.slug),
-  };
+"use client";
 
-  console.log(params.slug);
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-  //   await fetch("/api/shorten", options)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //     });
+export default function LinkRedirect({ params }: { params: { code: string } }) {
+  const [originalUrl, setOriginalUrl] = useState<string | null>(null);
 
-  return <h1>test</h1>;
+  const router = useRouter();
+
+  useEffect(() => {
+    fetch(`/api/shorten/${params.code}`)
+      .then((res) => res.json())
+      .then((data) => {
+        const og = data.og;
+        setOriginalUrl(og);
+
+        router.push(og);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [params.code]);
+
+  return <>{originalUrl && <p>Redirecting to: {originalUrl}</p>}</>;
 }
