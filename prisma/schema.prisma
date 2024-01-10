@@ -22,10 +22,9 @@ model Url {
 }
 
 model User {
-  id         Int    @id @default(autoincrement())
-  email      String @unique
-  name       String
-  provider   String
-  providerId String
-  urls       Url[]
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  name     String
+  provider String
+  urls     Url[]
 }
