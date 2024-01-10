@@ -1,28 +1,24 @@
 import { NextResponse } from "next/server";
 import type { NextApiResponse } from "next";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/lib/authOptions";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function mGET(req: Request, res: NextApiResponse) {
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user) {
-    return new NextResponse(JSON.stringify({ error: "unauthorized" }), {
-      status: 401,
-    });
-  }
+interface reqBody {
+  urlCode: string;
+}
 
-  const urls = await prisma.url.findMany({
+export async function mGET(req: Request, res: NextApiResponse) {
+  const body: reqBody = await req.json();
+
+  const url = await prisma.url.findUnique({
     where: {
-      createdBy: {
-        email: session.user.email as string,
-      },
+      shortId: body.urlCode,
     },
   });
+  const og = url?.originalUrl;
 
-  return new NextResponse(JSON.stringify({ urls }), {
+  return new NextResponse(JSON.stringify({ og }), {
     status: 200,
   });
 }

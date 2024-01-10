@@ -41,7 +41,7 @@ export default function LinkTable({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        fetch("/api/shorten")
+        fetch("/api/urls")
           .then((res) => res.json())
           .then((data: any) => {
             if ("error" in data) {
