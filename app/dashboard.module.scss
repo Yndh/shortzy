@@ -1,38 +1,5 @@
 @import 'variables.scss';
 
-.main {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 4rem 5rem;
-  max-height: 100vh;
-  overflow-y: hidden;
-
-  &::before,
-  &::after {
-    content: "";
-    position: fixed;
-    z-index: -1;
-
-    width: 50%;
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    background: radial-gradient(circle, $background-accent-color 0%, $background-color 73%);
-    animation: pulse 5s ease-in-out infinite;
-  }
-
-  &::before {
-    left: -20%;
-    top: -20%;
-  }
-
-  &::after {
-    right: -20%;
-    bottom: -20%;
-  }
-}
-
 @keyframes pulse {
   0% {
     transform: scale(1);
@@ -84,6 +51,12 @@
       border-radius: 15px;
       background: $backdrop-gradient;
       border: 1px solid $accent-color;
+
+      img {
+        border-radius: 50%;
+        aspect-ratio: 1/1;
+        object-fit: contain;
+      }
     }
   }
 }

@@ -43,7 +43,7 @@ export default function Header({
           {session?.user ? (
             <>
               <li>
-                <div className="borderContainer">
+                <Link href={"/dashboard"}>
                   <Image
                     src={`${session.user.image}`}
                     width={30}
@@ -51,7 +51,7 @@ export default function Header({
                     alt="pfp"
                   />
                   <p>{session.user.name}</p>
-                </div>
+                </Link>
               </li>
 
               <li>

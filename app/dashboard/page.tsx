@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth";
 
 export default function Dashboard() {
   return (
-    <main className={styles.main}>
+    <main className="main">
       <Header shortener={true} styles={styles} />
 
       <div className={styles.wrapper}>
