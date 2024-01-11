@@ -51,7 +51,6 @@ export default function LinkTable({
             }
 
             const urls = data.urls;
-            console.log(urls);
 
             const urlsData = urls.map((url: LinkData) => ({
               shortId: url.shortId,
@@ -83,7 +82,6 @@ export default function LinkTable({
   const copyLink = (link: string) => {
     navigator.clipboard.writeText(link).then(
       () => {
-        console.log(`Copied link`);
         toast.success("Copied link!");
       },
       (err) => {

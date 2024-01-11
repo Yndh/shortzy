@@ -24,9 +24,25 @@ export async function mGET(req: Request, res: ResponseInterface) {
       shortId: code,
     },
   });
-  const og = url?.originalUrl;
 
-  return new NextResponse(JSON.stringify({ og }), {
-    status: 200,
-  });
+  if (url) {
+    await prisma.url.update({
+      where: {
+        shortId: code,
+      },
+      data: {
+        clicks: url.clicks + 1,
+      },
+    });
+
+    const clicks = url.clicks + 1;
+
+    return new NextResponse(JSON.stringify({ clicks }), {
+      status: 200,
+    });
+  } else {
+    return new NextResponse(JSON.stringify({ error: "URL not found" }), {
+      status: 400,
+    });
+  }
 }
