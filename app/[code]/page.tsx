@@ -27,6 +27,7 @@ export default function LinkRedirect({ params }: { params: { code: string } }) {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
+    console.log("a");
   }, []);
 
   return <>{originalUrl && <p>Redirecting to: {originalUrl}</p>}</>;

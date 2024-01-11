@@ -20,7 +20,6 @@ export default function Shortener({ stylesProps = styles }: ShortenerProps) {
     const localStorageValue = localStorage.getItem("autoPaste");
     return localStorageValue ? JSON.parse(localStorageValue) : false;
   });
-
   useEffect(() => {
     localStorage.setItem("autoPaste", JSON.stringify(autoPaste));
 
