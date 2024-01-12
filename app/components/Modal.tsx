@@ -8,8 +8,6 @@ interface ModalInterface {
 }
 
 export default function Modal({ isOpen, onClose, children }: ModalInterface) {
-  console.log(isOpen ? "Open" : "Close");
-
   return (
     <div className={`modalContainer ${isOpen ? "active" : ""}`}>
       <div className="modal">

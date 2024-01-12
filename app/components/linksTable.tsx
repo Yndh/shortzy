@@ -39,6 +39,7 @@ export default function LinkTable({
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [data, setData] = useState<LinkData[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [deleteShortId, setDeleteShortId] = useState<string>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -119,8 +120,35 @@ export default function LinkTable({
     setModalIsOpen(!modalIsOpen);
   };
 
-  const deleteUrl = (shortId: string) => {
+  const prepareForDelete = (shortId: string) => {
     toggleModal();
+    setDeleteShortId(shortId);
+  };
+
+  const deleteUrl = (shortId: string) => {
+    const options = {
+      method: "DELETE",
+    };
+
+    fetch(`/api/shorten/${shortId}`, options)
+      .then((res) => res.json())
+      .then((apiData) => {
+        if ("success" in apiData) {
+          const updatedData = data.filter(
+            (link: LinkData) => link.shortId !== shortId
+          );
+          setData(updatedData);
+          toast.success("Url deleted successfully!");
+        } else if ("error" in apiData) {
+          toast.error("Failed to delete link else");
+        }
+      })
+      .catch((err) => {
+        toast.error("Failed to delete link catch ->", err);
+      })
+      .finally(() => {
+        toggleModal();
+      });
   };
 
   return (
@@ -223,7 +251,7 @@ export default function LinkTable({
                             <FontAwesomeIcon
                               icon={faTrash}
                               onClick={() => {
-                                deleteUrl(row.shortId);
+                                prepareForDelete(row.shortId);
                               }}
                             />
                           </button>
@@ -249,8 +277,14 @@ export default function LinkTable({
       <Modal isOpen={modalIsOpen} onClose={toggleModal}>
         <h1>Napewno chesz usunąc ten link? 🔥</h1>
         <div className="modalRow">
-          <button>Anuluj</button>
-          <button>Usuń</button>
+          <button onClick={toggleModal}>Anuluj</button>
+          <button
+            onClick={() => {
+              deleteUrl(deleteShortId as string);
+            }}
+          >
+            Usuń
+          </button>
         </div>
       </Modal>
     </>
