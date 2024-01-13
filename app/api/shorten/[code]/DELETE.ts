@@ -15,16 +15,24 @@ export async function mDELETE(req: Request, res: ResponseInterface) {
   const session = await getServerSession();
 
   if (!session || !session.user) {
-    return new NextResponse(JSON.stringify({ error: "Not Authorized" }), {
-      status: 401,
-    });
+    return new NextResponse(
+      JSON.stringify({ error: "The user is not authenticated" }),
+      {
+        status: 401,
+      }
+    );
   }
 
   const code = res.params.code;
   if (!code) {
-    return new NextResponse(JSON.stringify({ error: "No shortId found" }), {
-      status: 400,
-    });
+    return new NextResponse(
+      JSON.stringify({
+        error: "No short URL code is provided in the URL parameters",
+      }),
+      {
+        status: 400,
+      }
+    );
   }
 
   const url = await prisma.url.findFirst({
@@ -38,7 +46,7 @@ export async function mDELETE(req: Request, res: ResponseInterface) {
 
   if (!url) {
     return new NextResponse(
-      JSON.stringify({ error: "Short URL not found or not owned by the user" }),
+      JSON.stringify({ error: "The specified short URL does not exist" }),
       {
         status: 404,
       }
@@ -52,14 +60,18 @@ export async function mDELETE(req: Request, res: ResponseInterface) {
       },
     });
 
-    return new NextResponse(JSON.stringify({ success: true }), {
-      status: 200,
-    });
-  } catch (error) {
-    console.error("Error deleting URL:", error);
-
     return new NextResponse(
-      JSON.stringify({ error: "Error deleting URL. Please try again later." }),
+      JSON.stringify({
+        success: true,
+        message: "The URL has been successfully deleted",
+      }),
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    return new NextResponse(
+      JSON.stringify({ error: "An error occurred while deleting the URL" }),
       {
         status: 500,
       }

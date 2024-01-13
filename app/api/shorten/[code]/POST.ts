@@ -10,7 +10,13 @@ interface reqBody {
   url: string;
 }
 
-export async function mPOST(req: Request, res: NextApiResponse) {
+interface ResponseInterface<T = any> extends NextApiResponse<T> {
+  params: {
+    code: string;
+  };
+}
+
+export async function mPOST(req: Request, res: ResponseInterface) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
     return new NextResponse(
@@ -21,7 +27,25 @@ export async function mPOST(req: Request, res: NextApiResponse) {
     );
   }
 
+  const code = res.params.code;
+  if (!code) {
+    return new NextResponse(
+      JSON.stringify({ error: "No code is provided in the URL parameters." }),
+      {
+        status: 400,
+      }
+    );
+  }
+
   const body: reqBody = await req.json();
+  if (!body.url) {
+    return new NextResponse(
+      JSON.stringify({ error: "No URL is provided in the request body" }),
+      {
+        status: 400,
+      }
+    );
+  }
   const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
   if (!body.url.match(urlRegex)) {
     return new NextResponse(
@@ -34,34 +58,39 @@ export async function mPOST(req: Request, res: NextApiResponse) {
     );
   }
 
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const len = 6;
-  let shortId = "";
-  for (let i = 0; i < len; i++) {
-    shortId += characters.charAt(Math.floor(Math.random() * characters.length));
+  const url = await prisma.url.findUnique({
+    where: {
+      shortId: code,
+    },
+  });
+  if (!url) {
+    return new NextResponse(
+      JSON.stringify({ error: "The specified short URL does not exist" }),
+      {
+        status: 400,
+      }
+    );
   }
 
   try {
-    const shortUrl = await prisma.url.create({
+    await prisma.url.update({
+      where: {
+        shortId: code,
+      },
       data: {
         originalUrl: body.url,
-        shortId: shortId,
-        createdBy: {
-          connect: { email: session.user.email as string },
-        },
       },
     });
 
     return new NextResponse(
-      JSON.stringify({ success: true, shortUrl: shortUrl }),
+      JSON.stringify({ success: true, originalUrl: body.url }),
       {
         status: 200,
       }
     );
-  } catch (e) {
+  } catch (err) {
     return new NextResponse(
-      JSON.stringify({ error: "An error occurred while creating the URL" }),
+      JSON.stringify({ error: "An error occurred while updating the URL" }),
       {
         status: 400,
       }

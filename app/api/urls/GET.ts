@@ -9,9 +9,12 @@ const prisma = new PrismaClient();
 export async function mGET(req: Request, res: NextApiResponse) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
-    return new NextResponse(JSON.stringify({ error: "unauthorized" }), {
-      status: 401,
-    });
+    return new NextResponse(
+      JSON.stringify({ error: "The user is not authenticated" }),
+      {
+        status: 401,
+      }
+    );
   }
 
   const urls = await prisma.url.findMany({
