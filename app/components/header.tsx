@@ -43,19 +43,19 @@ export default function Header({
           {session?.user ? (
             <>
               <li>
-                <Link href={"/dashboard"}>
+                <Link href={"/dashboard"} className={styles.profileLink}>
                   <Image
                     src={`${session.user.image}`}
                     width={30}
                     height={30}
                     alt="pfp"
                   />
-                  <p>{session.user.name}</p>
+                  <p className={styles.userName}>{session.user.name}</p>
                 </Link>
               </li>
 
               <li>
-                <button className="logout" onClick={logoutHandler}>
+                <button className={styles.logout} onClick={logoutHandler}>
                   <FontAwesomeIcon icon={faArrowRightFromBracket} />
                 </button>
               </li>

@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { PrismaClient } from "@prisma/client";
 import Modal from "./Modal";
 import Input from "./input";
+import Link from "next/link";
 
 const prisma = new PrismaClient();
 
@@ -190,7 +191,6 @@ export default function LinkTable({
         }
       })
       .catch((err) => {
-        console.log(err);
         toast.error("An error occurred while updating the URL");
       });
   };
@@ -270,12 +270,14 @@ export default function LinkTable({
                       </a>
                     </td>
                     <td>
-                      <QRCode
-                        value={`http://localhost:3000/${row.shortId}`}
-                        style={{ width: "50px", height: "50px" }}
-                        bgColor="transparent"
-                        fgColor="#C9CED6"
-                      />
+                      <Link href={`/qr/${row.shortId}`} target="_blank">
+                        <QRCode
+                          value={`http://localhost:3000/${row.shortId}`}
+                          style={{ width: "50px", height: "50px" }}
+                          bgColor="transparent"
+                          fgColor="#C9CED6"
+                        />
+                      </Link>
                     </td>
                     <td>{row.clicks}</td>
                     <td

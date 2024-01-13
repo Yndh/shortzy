@@ -2,11 +2,10 @@ import styles from "./page.module.scss";
 import Shortener from "./components/shortener";
 import LinksTable from "./components/linksTable";
 import Header from "./components/header";
-import SwitchToggleButton from "./components/switchToggleButton";
 
 export default function Home() {
   return (
-    <main className="main">
+    <main className={styles.main}>
       <Header styles={styles} />
 
       <div className={styles.wrapper}>

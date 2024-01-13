@@ -39,9 +39,9 @@ button {
   gap: 7px;
   color: $bold-font-color;
   font-size: 14px;
-  background: #007575;
+  background: $backdrop-gradient;
+  border: 1px solid $accent-color;
   outline: none;
-  border: none;
   padding: 15px 25px;
   border-radius: 5px;
   text-wrap: nowrap;
@@ -176,32 +176,6 @@ button {
   }
 }
 
-.logout {
-  all: unset;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background: $backdrop-gradient;
-  border: 1px solid $accent-color;
-  border-radius: 25px;
-  aspect-ratio: 1/1;
-  transition: .3s;
-
-  svg {
-    transition: .3s;
-  }
-
-  &:hover {
-    box-shadow: 0px 0px 24px 0px $error-color;
-    opacity: .8;
-
-    svg {
-      color: $error-color;
-    }
-  }
-}
-
 .modalContainer {
   position: fixed;
   display: flex;
@@ -333,4 +307,14 @@ button {
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .modalContainer .modal {
+    width: 90%;
+
+    &.size2 {
+      width: 90%;
+    }
+  }
 }
