@@ -15,6 +15,7 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 import { PrismaClient } from "@prisma/client";
 import Modal from "./Modal";
+import Input from "./input";
 
 const prisma = new PrismaClient();
 
@@ -39,6 +40,9 @@ export default function LinkTable({
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [data, setData] = useState<LinkData[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [editModalIsOpen, setEditModalIsOpen] = useState(false);
+  const [editShortId, setEditShortId] = useState<string>();
+  const [editUrl, setEditUrl] = useState<string>();
   const [deleteShortId, setDeleteShortId] = useState<string>();
 
   useEffect(() => {
@@ -151,6 +155,46 @@ export default function LinkTable({
       });
   };
 
+  const toggleEditModal = () => {
+    setEditModalIsOpen(!editModalIsOpen);
+  };
+
+  const prepareForEdit = (shortId: string, originalUrl: string) => {
+    setEditShortId(shortId);
+    setEditUrl(originalUrl);
+    toggleEditModal();
+  };
+
+  const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditUrl(e.target.value);
+  };
+
+  const editUrlHandler = (shortId: string, url: string) => {
+    const options = {
+      method: "POST",
+      body: JSON.stringify({ url: url }),
+    };
+    fetch(`/api/shorten/${shortId}`, options)
+      .then((res) => res.json())
+      .then((urlData) => {
+        if ("success" in urlData) {
+          const updatedData = data.map((link: LinkData) =>
+            link.shortId === shortId
+              ? { ...link, originalUrl: urlData.originalUrl }
+              : link
+          );
+          setData(updatedData);
+
+          toast.success("The URL has been successfully updated");
+          toggleEditModal();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("An error occurred while updating the URL");
+      });
+  };
+
   return (
     <>
       <div className={styles.tableContainer}>
@@ -164,7 +208,7 @@ export default function LinkTable({
               <th>Status</th>
               <th>
                 <div className={styles.thContainer} onClick={sortBycreatedAt}>
-                  createdAt
+                  Date
                   <div
                     className={`${styles.sortContainer} ${
                       sortDirection === "asc" ? styles.asc : styles.desc
@@ -243,7 +287,12 @@ export default function LinkTable({
                     {showActions && (
                       <td>
                         <div className={styles.actionContainer}>
-                          <button className={styles.tableButton}>
+                          <button
+                            className={styles.tableButton}
+                            onClick={() => {
+                              prepareForEdit(row.shortId, row.originalUrl);
+                            }}
+                          >
                             <FontAwesomeIcon icon={faPen} />
                           </button>
 
@@ -275,15 +324,46 @@ export default function LinkTable({
         </table>
       </div>
       <Modal isOpen={modalIsOpen} onClose={toggleModal}>
-        <h1>Napewno chesz usunąc ten link? 🔥</h1>
+        <h1>Are you sure?</h1>
+        <p>You will not be able to recover this link!</p>
         <div className="modalRow">
-          <button onClick={toggleModal}>Anuluj</button>
+          <button onClick={toggleModal}>Cancel</button>
           <button
             onClick={() => {
               deleteUrl(deleteShortId as string);
             }}
           >
-            Usuń
+            Delete
+          </button>
+        </div>
+      </Modal>
+
+      <Modal isOpen={editModalIsOpen} onClose={toggleEditModal} size={2}>
+        <h1>Edit link</h1>
+        <p>Change destination url</p>
+
+        <Input
+          name="Short Url"
+          value={`localhost:3000/${editShortId}`}
+          disabled={true}
+          onChange={() => {
+            return;
+          }}
+        />
+        <Input
+          name="Destination Url"
+          value={editUrl as string}
+          onChange={handleUrlChange}
+        />
+
+        <div className="modalRow">
+          <button onClick={toggleEditModal}>Cancel</button>
+          <button
+            onClick={() => {
+              editUrlHandler(editShortId as string, editUrl as string);
+            }}
+          >
+            Save
           </button>
         </div>
       </Modal>
