@@ -191,12 +191,6 @@ button {
   transition: .3s;
   backdrop-filter: blur(5px);
 
-  button {
-    background: $backdrop-gradient;
-    border: 1px solid $accent-color;
-    color: $font-color;
-  }
-
   .modal {
     display: flex;
     flex-direction: column;
@@ -237,6 +231,12 @@ button {
         padding: 5px;
         border-radius: 50%;
         aspect-ratio: 1/1;
+        cursor: pointer;
+        transition: .3s;
+
+        &:hover {
+          opacity: .7;
+        }
       }
     }
 
