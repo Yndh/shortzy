@@ -195,6 +195,21 @@ export default function LinkTable({
       });
   };
 
+  const saveQrCode = (shortId: string) => {
+    const canvas = document.getElementById(
+      `qr-${shortId}`
+    ) as HTMLCanvasElement;
+
+    if (canvas) {
+      const image = canvas.toDataURL("image/png");
+
+      const link = document.createElement("a");
+      link.href = image;
+      link.download = `qrcode_${shortId}.png`;
+      link.click();
+    }
+  };
+
   return (
     <>
       <div className={styles.tableContainer}>
@@ -270,14 +285,18 @@ export default function LinkTable({
                       </a>
                     </td>
                     <td>
-                      <Link href={`/qr/${row.shortId}`} target="_blank">
-                        <QRCode
-                          value={`http://localhost:3000/${row.shortId}`}
-                          style={{ width: "50px", height: "50px" }}
-                          bgColor="transparent"
-                          fgColor="#C9CED6"
-                        />
-                      </Link>
+                      <QRCode
+                        id={`qr-${row.shortId}`}
+                        value={`http://localhost:3000/${row.shortId}`}
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          cursor: "pointer",
+                        }}
+                        bgColor="transparent"
+                        fgColor="#C9CED6"
+                        onClick={() => saveQrCode(row.shortId)}
+                      />
                     </td>
                     <td>{row.clicks}</td>
                     <td
