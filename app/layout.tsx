@@ -8,8 +8,10 @@ import NextAuthSessionProvider from "@/providers/SessionProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Url Shortener",
-  description: "Url Shortener app",
+  title: "Shortzy | URL Shortener for Shareable Links",
+  description:
+    "Shorten URLs instantly and share them with Shortzy, the user-friendly URL shortener app.",
+  keywords: ["URL shortener", "link shortener", "short link", "URL management"],
 };
 
 export default function RootLayout({
