@@ -1,13 +1,14 @@
 @import 'variables.scss';
 
 .main {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 2rem 5rem;
-  height: 100vh;
-  overflow-y: hidden;
+  padding-top: 10rem;
+  min-height: 100vh;
 
   &::before,
   &::after {
@@ -19,7 +20,7 @@
     aspect-ratio: 1/1;
     border-radius: 50%;
     background: radial-gradient(circle, $background-accent-color 0%, $background-color 73%);
-    animation: pulse 5s ease-in-out infinite;
+    animation: pulse 3s ease-in-out infinite;
   }
 
   &::before {
@@ -58,8 +59,19 @@
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
-  width: 100%;
+  width: 80%;
   z-index: 2;
+  border: 1px solid transparent;
+  transition: .25s;
+
+  &.scrolled {
+    width: 40%;
+    padding: 1rem 2rem;
+    margin-top: 2rem;
+    background: $background-color;
+    border-color: $accent-color;
+    border-radius: 25px;
+  }
 
   h1 {
     background: $logo-gradient;
@@ -102,7 +114,7 @@
     padding: 20px;
     background: $backdrop-gradient;
     border: 1px solid $accent-color;
-    border-radius: 25px;
+    border-radius: 20px;
     aspect-ratio: 1/1;
     transition: .3s;
 
@@ -111,28 +123,11 @@
     }
 
     &:hover {
-      box-shadow: 0px 0px 24px 0px $error-color;
-      opacity: .8;
-
-      svg {
-        color: $error-color;
-      }
+      opacity: .7;
     }
   }
 }
 
-.wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: column;
-  width: 100%;
-  height: 100vh;
-  margin-top: 5rem;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
 
 .shortenerContainer {
   display: flex;
@@ -183,8 +178,6 @@
   align-items: center;
   flex-direction: column;
   width: 100%;
-  margin-top: 1rem;
-  min-height: 100vh;
 
   img.mobileMockup {
     display: none;
@@ -235,7 +228,12 @@
   }
 
   .header {
+    width: 100%;
     padding: 2rem;
+
+    &.scrolled {
+      width: 90%;
+    }
 
     .profileLink {
       padding: 10px;

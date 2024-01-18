@@ -41,7 +41,7 @@
         aspect-ratio: 1/1;
         border-radius: 50%;
         background: radial-gradient(circle, $background-accent-color 0%, $background-color 73%);
-        animation: pulse 5s ease-in-out infinite;
+        animation: pulse 3s ease-in-out infinite;
     }
 
     &::before {

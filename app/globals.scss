@@ -33,6 +33,12 @@ h1 {
   color: $bold-font-color;
 }
 
+img {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+
 button {
   display: flex;
   align-items: center;
@@ -227,18 +233,20 @@ button {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: $backdrop-gradient;
-        border: 1px solid $accent-color;
         width: 20px;
         height: 20px;
-        padding: 5px;
-        border-radius: 50%;
+        padding: 4px;
+        border: 1px solid transparent;
+        border-radius: 10px;
         aspect-ratio: 1/1;
         cursor: pointer;
         transition: .3s;
+        opacity: .7;
 
         &:hover {
-          opacity: .7;
+          opacity: 1;
+          background: $backdrop-gradient;
+          border-color: $accent-color;
         }
       }
     }

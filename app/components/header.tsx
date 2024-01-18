@@ -10,6 +10,7 @@ import Shortener from "./shortener";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface HeaderInterface {
   links?: boolean;
@@ -22,6 +23,21 @@ export default function Header({
   shortener = false,
   styles,
 }: HeaderInterface) {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  const handleScroll = () => {
+    const scrollTop = window.scrollY;
+    console.log(`scrollTop = ${scrollTop}`);
+    setIsScrolled(scrollTop > 35);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const { data: session } = useSession();
   console.log("================================");
 
@@ -33,7 +49,11 @@ export default function Header({
   };
 
   return (
-    <div className={styles.header}>
+    <div
+      className={
+        isScrolled ? `${styles.header} ${styles.scrolled}` : styles.header
+      }
+    >
       <Link href={"/"}>
         <h1>Shortzy</h1>
       </Link>
