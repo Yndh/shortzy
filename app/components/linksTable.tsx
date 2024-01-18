@@ -264,6 +264,7 @@ export default function LinkTable({
               name="Destination Url"
               value={editUrl as string}
               onChange={handleUrlChange}
+              focus={true}
             />
             <div className="modalRow">
               <button onClick={() => toggleModal(actionType)}>Cancel</button>

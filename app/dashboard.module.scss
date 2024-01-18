@@ -151,6 +151,7 @@
     padding: 10px 10px 10px 20px;
     gap: 10px;
     transition: .3s;
+    outline-offset: 1px;
 
     input {
       all: unset;
@@ -170,7 +171,7 @@
     }
 
     &:focus-within {
-      border-color: #838383;
+      outline: 1px solid $accent-color;
     }
   }
 }
@@ -403,17 +404,6 @@
     }
   }
 
-  .hero {
-
-    h1 {
-      font-size: 32px;
-    }
-
-    p {
-      width: 70%;
-    }
-  }
-
   .tableContainer {
     width: 100%;
     padding-bottom: 5rem;
@@ -466,10 +456,6 @@
 @media only screen and (min-width: 601px) and (max-width: 1024px) {
   .borderContainer {
     width: 70%;
-  }
-
-  .hero p {
-    width: 50%;
   }
 
   .linksTable {

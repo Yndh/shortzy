@@ -296,10 +296,11 @@ button {
     border-radius: 10px;
     color: $font-color;
     outline: none;
+    outline-offset: 1px;
     transition: .3s;
 
     &:focus {
-      border-color: $font-color;
+      outline: 1px solid $accent-color;
     }
 
     &:disabled {

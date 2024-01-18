@@ -208,163 +208,6 @@
   }
 }
 
-.tableContainer {
-  height: 80vh;
-  width: 80%;
-
-  .linksTable {
-    width: 100%;
-    border-radius: 10px;
-    overflow: hidden;
-    border-collapse: collapse;
-    margin-top: 4rem;
-    // min-height: 50vh;
-
-
-    th,
-    td {
-      text-align: left;
-      padding: 15px;
-    }
-
-    th {
-      user-select: none;
-      -moz-user-select: none;
-      -webkit-user-select: none;
-    }
-
-    td.active {
-      color: $success-color;
-    }
-
-    td.inactive {
-      color: $warning-color;
-    }
-
-    td.emptyData {
-      text-align: center;
-      padding: 50px;
-
-      .emptyContainer {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-
-        p {
-          margin: 0 0 10px 0;
-          font-size: 14px;
-        }
-
-        p:first-child {
-          font-size: 16px;
-          color: $bold-font-color;
-        }
-      }
-    }
-
-    .tableButton,
-    .mobileButton {
-      all: unset;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: $font-color;
-      background: $backdrop-gradient;
-      padding: 5px;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      border: 1px solid $accent-color;
-      transition: .3s;
-
-      svg {
-        font-size: 14px;
-      }
-
-      &:hover {
-        opacity: .8;
-      }
-    }
-
-    .mobileButton {
-      display: none;
-    }
-
-    .rowText {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-
-    }
-
-    .thContainer {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .sortContainer {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      padding-top: 5px;
-
-      svg {
-        height: 15px;
-
-        &:last-of-type {
-          transform: translateY(-5px);
-        }
-      }
-
-      &.asc svg:last-of-type {
-        opacity: .5;
-      }
-
-      &.desc svg:first-of-type {
-        opacity: .5;
-      }
-    }
-
-    tr {
-      margin-bottom: 10px;
-    }
-
-    thead tr {
-      background: $backdrop-gradient;
-    }
-
-    tbody tr {
-      background: $background-glassy;
-      backdrop-filter: blur(5px);
-    }
-
-    a {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      max-width: 300px;
-
-      .linkText {
-        display: block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-    }
-
-    .linkIcon {
-      border-radius: 2px;
-      width: 20px;
-      aspect-ratio: 1/1;
-    }
-
-  }
-}
 
 
 @media only screen and (max-width: 600px) {
@@ -421,6 +264,8 @@
   }
 
   .hero {
+    margin-top: 5rem;
+
     img.mobileMockup {
       display: block !important;
     }
@@ -438,47 +283,6 @@
     }
   }
 
-  .tableContainer {
-    width: 100%;
-
-    .linksTable {
-
-      a {
-        width: 200px;
-      }
-
-      td .rowText {
-        justify-content: center;
-      }
-
-      tr th:not(:first-child),
-      tr td:not(:first-child) {
-        display: none !important;
-      }
-
-      .mobileButton {
-        display: flex !important;
-      }
-
-      tr.active {
-        display: flex !important;
-        flex-direction: column;
-
-        td:not(:nth-child(4)) {
-          display: block !important;
-        }
-
-        td:not(:first-child) {
-          text-align: center;
-
-          a {
-            justify-content: center;
-            width: 100%;
-          }
-        }
-      }
-    }
-  }
 }
 
 @media only screen and (min-width: 601px) and (max-width: 1024px) {
@@ -488,9 +292,5 @@
 
   .hero p {
     width: 50%;
-  }
-
-  .linksTable {
-    width: 85%;
   }
 }
