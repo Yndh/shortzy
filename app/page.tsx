@@ -2,6 +2,7 @@ import styles from "./page.module.scss";
 import Shortener from "./components/shortener";
 import LinksTable from "./components/linksTable";
 import Header from "./components/header";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -17,7 +18,21 @@ export default function Home() {
 
           <Shortener />
 
-          <LinksTable styles={styles} />
+          <Image
+            src="/desktopMockup.png"
+            alt="desktop mockup"
+            width={700}
+            height={492}
+            className={styles.desktopMockup}
+          />
+
+          <Image
+            src="/mobileMockup.png"
+            alt="mobile mockup"
+            width={246}
+            height={500}
+            className={styles.mobileMockup}
+          />
         </div>
       </div>
     </main>

@@ -6,6 +6,7 @@ import {
   faChevronUp,
   faCopy,
   faEye,
+  faEyeSlash,
   faPen,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
@@ -407,7 +408,9 @@ export default function LinkTable({
                             setEditShortId(row.shortId);
                           }}
                         >
-                          <FontAwesomeIcon icon={faEye} />
+                          <FontAwesomeIcon
+                            icon={row.active ? faEye : faEyeSlash}
+                          />
                         </button>
 
                         <button
