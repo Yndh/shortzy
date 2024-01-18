@@ -26,6 +26,7 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
 }
 
 h1 {
@@ -46,6 +47,7 @@ button {
   border-radius: 5px;
   text-wrap: nowrap;
   transition: .3s;
+  cursor: pointer;
 
   &:hover {
     opacity: .8;
