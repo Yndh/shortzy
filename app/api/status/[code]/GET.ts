@@ -15,7 +15,9 @@ export async function mGET(req: Request, res: ResponseInterface) {
 
   if (!code) {
     return new NextResponse(
-      JSON.stringify({ error: "No code is provided in the URL parameters." }),
+      JSON.stringify({
+        error: "No short URL code is provided in the URL parameters",
+      }),
       {
         status: 400,
       }
@@ -25,20 +27,29 @@ export async function mGET(req: Request, res: ResponseInterface) {
   const url = await prisma.url.findUnique({
     where: {
       shortId: code,
-      active: true,
     },
   });
   if (!url) {
     return new NextResponse(
       JSON.stringify({ error: "The specified short URL does not exist" }),
       {
-        status: 404,
+        status: 400,
       }
     );
   }
 
-  const og = url.originalUrl;
-  return new NextResponse(JSON.stringify({ og }), {
+  await prisma.url.update({
+    where: {
+      shortId: code,
+    },
+    data: {
+      active: !url.active,
+    },
+  });
+
+  const active = !url.active;
+
+  return new NextResponse(JSON.stringify({ success: true, active: active }), {
     status: 200,
   });
 }

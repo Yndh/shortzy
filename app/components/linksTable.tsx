@@ -5,6 +5,7 @@ import {
   faChevronDown,
   faChevronUp,
   faCopy,
+  faEye,
   faPen,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
@@ -13,12 +14,8 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { toast } from "react-toastify";
-import { PrismaClient } from "@prisma/client";
 import Modal from "./Modal";
 import Input from "./input";
-import Link from "next/link";
-
-const prisma = new PrismaClient();
 
 interface LinkTableProps {
   showActions?: boolean;
@@ -45,6 +42,9 @@ export default function LinkTable({
   const [editShortId, setEditShortId] = useState<string>();
   const [editUrl, setEditUrl] = useState<string>();
   const [deleteShortId, setDeleteShortId] = useState<string>();
+  const [actionType, setActionType] = useState<
+    "delete" | "edit" | "toggleStatus"
+  >("delete");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,7 +71,7 @@ export default function LinkTable({
             setData(urlsData);
           });
       } catch (e) {
-        console.error(`Cant fetch data: ${e}`);
+        console.error(`Can't fetch data: ${e}`);
       }
     };
 
@@ -99,19 +99,19 @@ export default function LinkTable({
   };
 
   const toggleMobileList = (index: number) => {
-    const upcreatedAtdData = getSortedData().map((item, id) => {
+    const updatedData = getSortedData().map((item, id) => {
       if (id === index) {
         return { ...item, isOpen: !item.isOpen };
       }
       return item;
     });
-    setData(upcreatedAtdData);
+    setData(updatedData);
   };
 
-  const sortBycreatedAt = () => {
-    sortDirection === "asc"
-      ? setSortDirection("desc")
-      : setSortDirection("asc");
+  const sortByCreatedAt = () => {
+    setSortDirection((prevDirection) =>
+      prevDirection === "asc" ? "desc" : "asc"
+    );
   };
 
   const getSortedData = () => {
@@ -121,12 +121,13 @@ export default function LinkTable({
     return sortDirection === "asc" ? sortedData : sortedData.reverse();
   };
 
-  const toggleModal = () => {
+  const toggleModal = (action: "delete" | "edit" | "toggleStatus") => {
     setModalIsOpen(!modalIsOpen);
+    setActionType(action);
   };
 
   const prepareForDelete = (shortId: string) => {
-    toggleModal();
+    toggleModal("delete");
     setDeleteShortId(shortId);
   };
 
@@ -145,25 +146,21 @@ export default function LinkTable({
           setData(updatedData);
           toast.success("Url deleted successfully!");
         } else if ("error" in apiData) {
-          toast.error("Failed to delete link else");
+          toast.error("Failed to delete link");
         }
       })
       .catch((err) => {
-        toast.error("Failed to delete link catch ->", err);
+        toast.error("Failed to delete link", err);
       })
       .finally(() => {
-        toggleModal();
+        toggleModal("delete");
       });
-  };
-
-  const toggleEditModal = () => {
-    setEditModalIsOpen(!editModalIsOpen);
   };
 
   const prepareForEdit = (shortId: string, originalUrl: string) => {
     setEditShortId(shortId);
     setEditUrl(originalUrl);
-    toggleEditModal();
+    toggleModal("edit");
   };
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -187,11 +184,32 @@ export default function LinkTable({
           setData(updatedData);
 
           toast.success("The URL has been successfully updated");
-          toggleEditModal();
+          toggleModal("edit");
         }
       })
       .catch((err) => {
         toast.error("An error occurred while updating the URL");
+      });
+  };
+
+  const toggleLinkStatus = (shortId: string) => {
+    fetch(`/api/status/${shortId}`)
+      .then((res) => res.json())
+      .then((urlData) => {
+        if ("success" in urlData) {
+          const updatedData = data.map((link) =>
+            link.shortId === shortId
+              ? { ...link, active: urlData.active }
+              : link
+          );
+          setData(updatedData);
+
+          toast.success("Url status was updated successfully");
+          toggleModal("toggleStatus");
+        }
+      })
+      .catch((err) => {
+        toast.error("An error occurred while updating the URL status");
       });
   };
 
@@ -210,6 +228,85 @@ export default function LinkTable({
     }
   };
 
+  const getModalContent = () => {
+    switch (actionType) {
+      case "delete":
+        return (
+          <>
+            <h1>Delete link</h1>
+            <p>You will not be able to recover this link!</p>
+            <div className="modalRow">
+              <button onClick={() => toggleModal(actionType)}>Cancel</button>
+              <button
+                onClick={() => {
+                  deleteUrl(deleteShortId as string);
+                  toggleModal(actionType);
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </>
+        );
+      case "edit":
+        return (
+          <>
+            <h1>Edit link</h1>
+            <p>Change destination URL</p>
+            <Input
+              name="Short Url"
+              value={`localhost:3000/${editShortId}`}
+              disabled={true}
+              onChange={() => {}}
+            />
+            <Input
+              name="Destination Url"
+              value={editUrl as string}
+              onChange={handleUrlChange}
+            />
+            <div className="modalRow">
+              <button onClick={() => toggleModal(actionType)}>Cancel</button>
+              <button
+                onClick={() => {
+                  editUrlHandler(editShortId as string, editUrl as string);
+                  toggleModal(actionType);
+                }}
+              >
+                Save
+              </button>
+            </div>
+          </>
+        );
+      case "toggleStatus":
+        const isActive = data.find(
+          (link) => link.shortId === editShortId
+        )?.active;
+        return (
+          <>
+            <h1>{isActive ? "Disable Link" : "Enable Link"}</h1>
+            <p>
+              {isActive
+                ? "Do you want to disable this link?"
+                : "Do you want to enable this link?"}
+            </p>
+            <div className="modalRow">
+              <button onClick={() => toggleModal(actionType)}>Cancel</button>
+              <button
+                onClick={() => {
+                  toggleLinkStatus(editShortId as string);
+                  toggleModal(actionType);
+                }}
+              >
+                {isActive ? "Disable" : "Enable"}
+              </button>
+            </div>
+          </>
+        );
+      default:
+        return <></>;
+    }
+  };
+
   return (
     <>
       <div className={styles.tableContainer}>
@@ -222,7 +319,7 @@ export default function LinkTable({
               <th>Clicks</th>
               <th>Status</th>
               <th>
-                <div className={styles.thContainer} onClick={sortBycreatedAt}>
+                <div className={styles.thContainer} onClick={sortByCreatedAt}>
                   Date
                   <div
                     className={`${styles.sortContainer} ${
@@ -239,98 +336,102 @@ export default function LinkTable({
           </thead>
           <tbody>
             {data.length > 0 ? (
-              getSortedData().map((row, index) => {
-                return (
-                  <tr key={index} className={row.isOpen ? styles.active : ""}>
-                    <td>
-                      <span className={styles.rowText}>
-                        <a
-                          href={`http://localhost:3000/${row.shortId}`}
-                          target="_blank"
-                        >
-                          <span className={styles.linkText}>
-                            http://localhost:3000/{row.shortId}
-                          </span>
-                        </a>
-                        <button
-                          className={styles.tableButton}
-                          onClick={(e) => {
-                            copyLink(`http://localhost:3000/${row.shortId}`);
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faCopy} />
-                        </button>
-                        <button
-                          className={styles.mobileButton}
-                          onClick={() => toggleMobileList(index)}
-                        >
-                          <FontAwesomeIcon
-                            icon={row.isOpen ? faChevronUp : faChevronDown}
-                          />
-                        </button>
-                      </span>
-                    </td>
-                    <td>
-                      <a href={row.originalUrl} target="_blank">
-                        <Image
-                          src={`https://www.google.com/s2/favicons?sz=64&domain_url=${row.originalUrl}`}
-                          width={20}
-                          height={20}
-                          alt="Favicon"
-                          className={styles.linkIcon}
-                        />
+              getSortedData().map((row, index) => (
+                <tr key={index} className={row.isOpen ? styles.active : ""}>
+                  <td>
+                    <span className={styles.rowText}>
+                      <a
+                        href={`http://localhost:3000/${row.shortId}`}
+                        target="_blank"
+                      >
                         <span className={styles.linkText}>
-                          {row.originalUrl}
+                          http://localhost:3000/{row.shortId}
                         </span>
                       </a>
-                    </td>
-                    <td>
-                      <QRCode
-                        id={`qr-${row.shortId}`}
-                        value={`http://localhost:3000/${row.shortId}`}
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          cursor: "pointer",
+                      <button
+                        className={styles.tableButton}
+                        onClick={(e) => {
+                          copyLink(`http://localhost:3000/${row.shortId}`);
                         }}
-                        bgColor="transparent"
-                        fgColor="#C9CED6"
-                        onClick={() => saveQrCode(row.shortId)}
+                      >
+                        <FontAwesomeIcon icon={faCopy} />
+                      </button>
+                      <button
+                        className={styles.mobileButton}
+                        onClick={() => toggleMobileList(index)}
+                      >
+                        <FontAwesomeIcon
+                          icon={row.isOpen ? faChevronUp : faChevronDown}
+                        />
+                      </button>
+                    </span>
+                  </td>
+                  <td>
+                    <a href={row.originalUrl} target="_blank">
+                      <Image
+                        src={`https://www.google.com/s2/favicons?sz=64&domain_url=${row.originalUrl}`}
+                        width={20}
+                        height={20}
+                        alt="Favicon"
+                        className={styles.linkIcon}
                       />
-                    </td>
-                    <td>{row.clicks}</td>
-                    <td
-                      className={row.active ? styles.active : styles.inactive}
-                    >
-                      {row.active ? "Active" : "Inactive"}
-                    </td>
-                    <td>{formatDate(row.createdAt)}</td>
-                    {showActions && (
-                      <td>
-                        <div className={styles.actionContainer}>
-                          <button
-                            className={styles.tableButton}
-                            onClick={() => {
-                              prepareForEdit(row.shortId, row.originalUrl);
-                            }}
-                          >
-                            <FontAwesomeIcon icon={faPen} />
-                          </button>
+                      <span className={styles.linkText}>{row.originalUrl}</span>
+                    </a>
+                  </td>
+                  <td>
+                    <QRCode
+                      id={`qr-${row.shortId}`}
+                      value={`http://localhost:3000/${row.shortId}`}
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        cursor: "pointer",
+                      }}
+                      bgColor="transparent"
+                      fgColor="#C9CED6"
+                      onClick={() => saveQrCode(row.shortId)}
+                    />
+                  </td>
+                  <td>{row.clicks}</td>
+                  <td className={row.active ? styles.active : styles.inactive}>
+                    {row.active ? "Active" : "Inactive"}
+                  </td>
+                  <td>{formatDate(row.createdAt)}</td>
+                  {showActions && (
+                    <td>
+                      <div className={styles.actionContainer}>
+                        <button
+                          className={styles.tableButton}
+                          onClick={() => {
+                            toggleModal("toggleStatus");
+                            setEditShortId(row.shortId);
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faEye} />
+                        </button>
 
-                          <button className={styles.tableButton}>
-                            <FontAwesomeIcon
-                              icon={faTrash}
-                              onClick={() => {
-                                prepareForDelete(row.shortId);
-                              }}
-                            />
-                          </button>
-                        </div>
-                      </td>
-                    )}
-                  </tr>
-                );
-              })
+                        <button
+                          className={styles.tableButton}
+                          onClick={() => {
+                            prepareForEdit(row.shortId, row.originalUrl);
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faPen} />
+                        </button>
+
+                        <button
+                          className={styles.tableButton}
+                          onClick={() => {
+                            prepareForDelete(row.shortId);
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </button>
+                      </div>
+                    </td>
+                  )}
+                </tr>
+              ))
             ) : (
               <tr>
                 <td colSpan={7} className={styles.emptyData}>
@@ -344,49 +445,13 @@ export default function LinkTable({
           </tbody>
         </table>
       </div>
-      <Modal isOpen={modalIsOpen} onClose={toggleModal}>
-        <h1>Are you sure?</h1>
-        <p>You will not be able to recover this link!</p>
-        <div className="modalRow">
-          <button onClick={toggleModal}>Cancel</button>
-          <button
-            onClick={() => {
-              deleteUrl(deleteShortId as string);
-            }}
-          >
-            Delete
-          </button>
-        </div>
-      </Modal>
 
-      <Modal isOpen={editModalIsOpen} onClose={toggleEditModal} size={2}>
-        <h1>Edit link</h1>
-        <p>Change destination url</p>
-
-        <Input
-          name="Short Url"
-          value={`localhost:3000/${editShortId}`}
-          disabled={true}
-          onChange={() => {
-            return;
-          }}
-        />
-        <Input
-          name="Destination Url"
-          value={editUrl as string}
-          onChange={handleUrlChange}
-        />
-
-        <div className="modalRow">
-          <button onClick={toggleEditModal}>Cancel</button>
-          <button
-            onClick={() => {
-              editUrlHandler(editShortId as string, editUrl as string);
-            }}
-          >
-            Save
-          </button>
-        </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onClose={() => toggleModal(actionType)}
+        size={2}
+      >
+        {getModalContent()}
       </Modal>
     </>
   );
