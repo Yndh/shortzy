@@ -21,7 +21,12 @@ export default function Register() {
   const googleButtonHandler = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    throw new Error("Function not implemented.");
+    toast("Login Google");
+    try {
+      signIn("google");
+    } catch (err) {
+      toast.error(`${err}`);
+    }
   };
 
   const githubButtonHandler = (
