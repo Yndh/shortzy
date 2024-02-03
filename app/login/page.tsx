@@ -9,14 +9,25 @@ import { faGithub, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { signIn, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { toast } from "react-toastify";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Register() {
   const { data: session, status } = useSession();
+  const searchParams = useSearchParams();
+  const [error, setError] = useState("");
 
   if (status === "authenticated") {
     redirect("/dashboard");
   }
   console.log(status);
+
+  useEffect(() => {
+    const search = searchParams.get("error");
+    if (search) {
+      setError(search);
+    }
+  }, []);
 
   const googleButtonHandler = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -65,6 +76,8 @@ export default function Register() {
           <FontAwesomeIcon icon={faGithub} />
           <span>Sign in with GitHub</span>
         </button>
+
+        {error && <p>{error}</p>}
 
         {/* <span className={styles.pageLink}>
         <span>Already a member? </span>

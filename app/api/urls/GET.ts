@@ -2,9 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/authOptions";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/app/lib/prisma";
 
 export async function mGET(req: Request, res: NextApiResponse) {
   const session = await getServerSession(authOptions);
