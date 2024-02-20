@@ -127,7 +127,7 @@ export default function Shortener({ stylesProps = styles }: ShortenerProps) {
         </div>
       </div>
 
-      <Modal isOpen={modalIsOpen} onClose={closeHandler} size={2}>
+      <Modal isOpen={modalIsOpen} onClose={closeHandler}>
         <h1>Short Url Created</h1>
         <p>Your short URL has been successfully created</p>
         <div className="modalRow" style={{ marginTop: 15 }}>
