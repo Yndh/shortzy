@@ -1,6 +1,9 @@
 "use client";
 
 export default function getUrl() {
-  const { protocol, host } = window.location;
-  return `${protocol}//${host}`;
+  if (typeof window !== "undefined") {
+    const { protocol, host } = window.location;
+    return `${protocol}//${host}`;
+  }
+  return "https://shortzyy.vercel.app/";
 }
