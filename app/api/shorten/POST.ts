@@ -10,13 +10,10 @@ interface reqBody {
 
 export async function mPOST(req: Request, res: NextApiResponse) {
   const session = await getServerSession(authOptions);
-  if (!session || !session.user) {
-    return new NextResponse(
-      JSON.stringify({ error: "The user is not authenticated" }),
-      {
-        status: 401,
-      }
-    );
+  let createdBy = null;
+
+  if (session && session.user) {
+    createdBy = { connect: { email: session.user.email as string } };
   }
 
   const body: reqBody = await req.json();
@@ -41,23 +38,27 @@ export async function mPOST(req: Request, res: NextApiResponse) {
   }
 
   try {
+    const data: any = {
+      originalUrl: body.url,
+      shortId: shortId,
+    };
+
+    if (createdBy) {
+      data.createdBy = createdBy;
+    }
+
     const shortUrl = await prisma.url.create({
-      data: {
-        originalUrl: body.url,
-        shortId: shortId,
-        createdBy: {
-          connect: { email: session.user.email as string },
-        },
-      },
+      data,
     });
 
     return new NextResponse(
-      JSON.stringify({ success: true, shortUrl: shortUrl }),
+      JSON.stringify({ success: true, shortUrl: shortUrl.shortId }),
       {
         status: 200,
       }
     );
   } catch (e) {
+    console.error(e);
     return new NextResponse(
       JSON.stringify({ error: "An error occurred while creating the URL" }),
       {
