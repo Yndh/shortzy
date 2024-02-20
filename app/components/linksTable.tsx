@@ -450,11 +450,7 @@ export default function LinkTable({
         </table>
       </div>
 
-      <Modal
-        isOpen={modalIsOpen}
-        onClose={() => toggleModal(actionType)}
-        size={2}
-      >
+      <Modal isOpen={modalIsOpen} onClose={() => toggleModal(actionType)}>
         {getModalContent()}
       </Modal>
     </>
