@@ -24,28 +24,32 @@ export default function Shortener({ stylesProps = styles }: ShortenerProps) {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [shortUrl, setShortUrl] = useState<string>("");
   const [autoPaste, setAutoPaste] = useState<boolean>(() => {
-    const localStorageValue = localStorage.getItem("autoPaste");
-    return localStorageValue ? JSON.parse(localStorageValue) : false;
+    if (typeof window !== "undefined") {
+      const localStorageValue = localStorage.getItem("autoPaste");
+      return localStorageValue ? JSON.parse(localStorageValue) : false;
+    }
   });
   useEffect(() => {
-    localStorage.setItem("autoPaste", JSON.stringify(autoPaste));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("autoPaste", JSON.stringify(autoPaste));
 
-    if (autoPaste) {
-      try {
-        navigator.clipboard
-          .readText()
-          .then((urlData) => {
-            if (validateUrl(urlData)) {
-              setUrl(urlData);
-            }
-          })
-          .catch((err) => {
-            console.error("Failed to paste from clipboard:", err);
-            toast.error("Failed to read url from clipboard");
-          });
-      } catch (e) {
-        console.error("Failed to access clipboard:", e);
-        toast.error("Failed to access clipboard");
+      if (autoPaste) {
+        try {
+          navigator.clipboard
+            .readText()
+            .then((urlData) => {
+              if (validateUrl(urlData)) {
+                setUrl(urlData);
+              }
+            })
+            .catch((err) => {
+              console.error("Failed to paste from clipboard:", err);
+              toast.error("Failed to read url from clipboard");
+            });
+        } catch (e) {
+          console.error("Failed to access clipboard:", e);
+          toast.error("Failed to access clipboard");
+        }
       }
     }
   }, [autoPaste]);
