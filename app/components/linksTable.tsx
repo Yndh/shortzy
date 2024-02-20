@@ -17,6 +17,7 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 import Modal from "./Modal";
 import Input from "./input";
+import getUrl from "./url";
 
 interface LinkTableProps {
   showActions?: boolean;
@@ -256,7 +257,7 @@ export default function LinkTable({
             <p>Change destination URL</p>
             <Input
               name="Short Url"
-              value={`localhost:3000/${editShortId}`}
+              value={`${getUrl()}/${editShortId}`}
               disabled={true}
               onChange={() => {}}
             />
@@ -342,18 +343,15 @@ export default function LinkTable({
                 <tr key={index} className={row.isOpen ? styles.active : ""}>
                   <td>
                     <span className={styles.rowText}>
-                      <a
-                        href={`http://localhost:3000/${row.shortId}`}
-                        target="_blank"
-                      >
+                      <a href={`${getUrl()}/${row.shortId}`} target="_blank">
                         <span className={styles.linkText}>
-                          http://localhost:3000/{row.shortId}
+                          {getUrl()}/{row.shortId}
                         </span>
                       </a>
                       <button
                         className={styles.tableButton}
                         onClick={(e) => {
-                          copyLink(`http://localhost:3000/${row.shortId}`);
+                          copyLink(`${getUrl()}/${row.shortId}`);
                         }}
                       >
                         <FontAwesomeIcon icon={faCopy} />
@@ -383,7 +381,7 @@ export default function LinkTable({
                   <td>
                     <QRCode
                       id={`qr-${row.shortId}`}
-                      value={`http://localhost:3000/${row.shortId}`}
+                      value={`${getUrl()}/${row.shortId}`}
                       style={{
                         width: "50px",
                         height: "50px",

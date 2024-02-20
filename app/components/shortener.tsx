@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import SwitchToggleButton from "./switchToggleButton";
 import { PrismaClient } from "@prisma/client";
 import Modal from "./Modal";
+import getUrl from "./url";
 
 const prisma = new PrismaClient();
 
@@ -136,13 +137,8 @@ export default function Shortener({ stylesProps = styles }: ShortenerProps) {
         <p>Your short URL has been successfully created</p>
         <div className="modalRow" style={{ marginTop: 15 }}>
           <div className="copyInput">
-            <input
-              value={`http://localhost:3000/${shortUrl}`}
-              disabled={true}
-            />
-            <button
-              onClick={() => copyLink(`http://localhost:3000/${shortUrl}`)}
-            >
+            <input value={`${getUrl()}/${shortUrl}`} disabled={true} />
+            <button onClick={() => copyLink(`${getUrl()}/${shortUrl}`)}>
               <FontAwesomeIcon icon={faCopy} />
             </button>
           </div>
