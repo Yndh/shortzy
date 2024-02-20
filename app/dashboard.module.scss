@@ -105,6 +105,7 @@
     border: 1px solid $accent-color;
     border-radius: 25px;
     aspect-ratio: 1/1;
+    cursor: pointer;
     transition: .3s;
 
     svg {
@@ -112,12 +113,7 @@
     }
 
     &:hover {
-      box-shadow: 0px 0px 24px 0px $error-color;
       opacity: .8;
-
-      svg {
-        color: $error-color;
-      }
     }
   }
 }

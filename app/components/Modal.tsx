@@ -4,19 +4,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 interface ModalInterface {
   isOpen: boolean;
   onClose: React.MouseEventHandler<HTMLButtonElement>;
-  size?: number;
   children: React.ReactNode;
 }
 
-export default function Modal({
-  isOpen,
-  onClose,
-  size = 1,
-  children,
-}: ModalInterface) {
+export default function Modal({ isOpen, onClose, children }: ModalInterface) {
   return (
     <div className={`modalContainer ${isOpen ? "active" : ""}`}>
-      <div className={`modal size${size}`}>
+      <div className={`modal`}>
         <div className="modalHeader">
           <button onClick={onClose}>
             <FontAwesomeIcon icon={faClose} />

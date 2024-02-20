@@ -116,6 +116,7 @@
     border: 1px solid $accent-color;
     border-radius: 20px;
     aspect-ratio: 1/1;
+    cursor: pointer;
     transition: .3s;
 
     svg {
@@ -215,8 +216,7 @@
       left: -50%;
     }
 
-    button {
-      border-radius: 50%;
+    .borderContainer button {
       padding: 10px 15px;
       aspect-ratio: 1/1;
 

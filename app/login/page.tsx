@@ -27,7 +27,7 @@ export default function Register() {
     if (search) {
       setError(search);
     }
-  }, []);
+  }, [searchParams]);
 
   const googleButtonHandler = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -56,7 +56,7 @@ export default function Register() {
       <Header links={false} styles={styles} />
 
       <div className={styles.formContainer}>
-        <h2>Let's get Started</h2>
+        <h2>Let&apos;s get Started</h2>
         <span className={styles.description}>
           Sign up and shorten Your links
         </span>

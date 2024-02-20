@@ -32,7 +32,6 @@ export default function LinkRedirect({ params }: { params: { code: string } }) {
         console.error("Error fetching data:", error);
         setError(true);
       });
-    console.log("a");
   }, []);
 
   return (
@@ -42,7 +41,7 @@ export default function LinkRedirect({ params }: { params: { code: string } }) {
           <h1>Oops!</h1>
           <p>It seems like this link is having a bit of a day off!</p>
           <Link href="/">
-            <button>Let's go Home</button>
+            <button>Let&apos;s go Home</button>
           </Link>
         </div>
       ) : (

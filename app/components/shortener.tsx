@@ -31,16 +31,22 @@ export default function Shortener({ stylesProps = styles }: ShortenerProps) {
     localStorage.setItem("autoPaste", JSON.stringify(autoPaste));
 
     if (autoPaste) {
-      navigator.clipboard
-        .readText()
-        .then((urlData) => {
-          if (validateUrl(urlData)) {
-            setUrl(urlData);
-          }
-        })
-        .catch((err) => {
-          console.error("Failed to paste from clipboard:", err);
-        });
+      try {
+        navigator.clipboard
+          .readText()
+          .then((urlData) => {
+            if (validateUrl(urlData)) {
+              setUrl(urlData);
+            }
+          })
+          .catch((err) => {
+            console.error("Failed to paste from clipboard:", err);
+            toast.error("Failed to read url from clipboard");
+          });
+      } catch (e) {
+        console.error("Failed to access clipboard:", e);
+        toast.error("Failed to access clipboard");
+      }
     }
   }, [autoPaste]);
 
