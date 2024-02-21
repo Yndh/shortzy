@@ -4,6 +4,8 @@ import "./globals.scss";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NextAuthSessionProvider from "@/providers/SessionProvider";
+import { Suspense } from "react";
+import Loader from "./components/loader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,7 +32,7 @@ export default function RootLayout({
             pauseOnHover
             draggable
           />
-          {children}
+          <Suspense fallback={<Loader />}>{children}</Suspense>
         </NextAuthSessionProvider>
       </body>
     </html>

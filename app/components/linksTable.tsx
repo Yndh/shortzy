@@ -33,7 +33,7 @@ interface LinkData {
   isOpen?: boolean;
 }
 
-export default function LinkTable({
+export default async function LinkTable({
   showActions = false,
   styles,
 }: LinkTableProps) {
@@ -51,7 +51,7 @@ export default function LinkTable({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        fetch("/api/urls")
+        await fetch("/api/urls")
           .then((res) => res.json())
           .then((data: any) => {
             if ("error" in data) {
