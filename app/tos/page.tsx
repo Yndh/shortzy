@@ -65,12 +65,13 @@ export default function ToS() {
           <li>
             <p>Limitation of Liability</p>
             <span>
-              The Service is provided on an "as-is" and "as available" basis.
-              Shortzy makes no warranties, expressed or implied, and hereby
-              disclaims and negates all other warranties including, without
-              limitation, implied warranties or conditions of merchantability,
-              fitness for a particular purpose, or non-infringement of
-              intellectual property or other violation of rights.
+              The Service is provided on an &quot;as-is&quot; and &quot;as
+              available&quot; basis. Shortzy makes no warranties, expressed or
+              implied, and hereby disclaims and negates all other warranties
+              including, without limitation, implied warranties or conditions of
+              merchantability, fitness for a particular purpose, or
+              non-infringement of intellectual property or other violation of
+              rights.
             </span>
             <span>
               In no event shall Shortzy, nor its directors, employees, partners,
