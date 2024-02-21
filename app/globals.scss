@@ -420,6 +420,10 @@ button {
   display: none;
 }
 
+::selection {
+  background: $background-accent-color;
+}
+
 @media only screen and (max-width: 600px) {
   .modalContainer .modal {
     width: 90%;

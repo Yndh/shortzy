@@ -11,6 +11,7 @@ import { redirect } from "next/navigation";
 import { toast } from "react-toastify";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function Register() {
   const { data: session, status } = useSession();
@@ -78,12 +79,13 @@ export default function Register() {
 
         {error && <p>{error}</p>}
 
-        {/* <span className={styles.pageLink}>
-        <span>Already a member? </span>
-        <Link href={"/login"} className={styles.link}>
-          Sign in!
-        </Link>
-      </span> */}
+        <span className={styles.pageLink}>
+          <p>
+            Your privacy is important to us. By signing up, you agree to our{" "}
+            <Link href="/privacy">Privacy Policy</Link> and{" "}
+            <Link href="/tos">Terms of Service</Link>.
+          </p>
+        </span>
       </div>
     </div>
   );
