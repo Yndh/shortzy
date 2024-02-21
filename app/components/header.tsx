@@ -27,7 +27,6 @@ export default function Header({
 
   const handleScroll = () => {
     const scrollTop = window.scrollY;
-    console.log(`scrollTop = ${scrollTop}`);
     setIsScrolled(scrollTop > 35);
   };
 
@@ -39,9 +38,6 @@ export default function Header({
   }, []);
 
   const { data: session } = useSession();
-  console.log("================================");
-
-  console.log(session?.user);
 
   const logoutHandler = () => {
     signOut();

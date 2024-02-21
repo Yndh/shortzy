@@ -20,7 +20,6 @@ export default function Register() {
   if (status === "authenticated") {
     redirect("/dashboard");
   }
-  console.log(status);
 
   useEffect(() => {
     const search = searchParams.get("error");

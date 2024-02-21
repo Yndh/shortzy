@@ -78,7 +78,6 @@ export default function Shortener({ stylesProps = styles }: ShortenerProps) {
           return;
         }
         toast.success(`Short link created!`);
-        console.log(data);
 
         setShortUrl(data.shortUrl);
         toggleModal();
