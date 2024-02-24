@@ -1,5 +1,5 @@
-import { authOptions } from "@/app/lib/authOptions";
-import { prisma } from "@/app/lib/prisma";
+import { authOptions } from "@/lib/authOptions";
+import { prisma } from "@/lib/prisma";
 import { NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
@@ -13,7 +13,7 @@ export async function mPOST(req: Request, res: NextApiResponse) {
   let createdBy = null;
 
   if (session && session.user) {
-    createdBy = { connect: { email: session.user.email as string } };
+    createdBy = { connect: { id: session.user.id as string } };
   }
 
   const body: reqBody = await req.json();

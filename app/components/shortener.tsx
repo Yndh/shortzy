@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import SwitchToggleButton from "./switchToggleButton";
 import { PrismaClient } from "@prisma/client";
 import Modal from "./Modal";
-import getUrl from "./url";
+import getUrl from "../../lib/getUrl";
 
 const prisma = new PrismaClient();
 

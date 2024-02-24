@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextApiResponse } from "next";
-import { prisma } from "@/app/lib/prisma";
+import { prisma } from "@/lib/prisma";
 
 interface ResponseInterface<T = any> extends NextApiResponse<T> {
   params: {

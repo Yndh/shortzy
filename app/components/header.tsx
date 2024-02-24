@@ -31,6 +31,20 @@ export default function Header({
   };
 
   useEffect(() => {
+    fetch("/api/session")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("User");
+        console.log(data);
+
+        if (data.status === 400 || data.exists == false) {
+          signOut();
+          redirect("/login");
+        }
+      });
+  }, [false]);
+
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -38,6 +52,7 @@ export default function Header({
   }, []);
 
   const { data: session } = useSession();
+  console.log(session);
 
   const logoutHandler = () => {
     signOut();
@@ -60,12 +75,21 @@ export default function Header({
             <>
               <li>
                 <Link href={"/dashboard"} className={styles.profileLink}>
-                  <Image
-                    src={`${session.user.image}`}
-                    width={30}
-                    height={30}
-                    alt="pfp"
-                  />
+                  {session.user.image ? (
+                    <Image
+                      src={session.user.image}
+                      width={30}
+                      height={30}
+                      alt="User Profile Picture"
+                    />
+                  ) : (
+                    <Image
+                      src={"/pfp.svg"}
+                      width={30}
+                      height={30}
+                      alt="Default Profile Picture"
+                    />
+                  )}
                   <p className={styles.userName}>{session.user.name}</p>
                 </Link>
               </li>

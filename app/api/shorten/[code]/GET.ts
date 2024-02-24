@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextApiResponse } from "next";
-import { prisma } from "@/app/lib/prisma";
+import { prisma } from "@/lib/prisma";
 
 interface ResponseInterface<T = any> extends NextApiResponse<T> {
   params: {
@@ -28,7 +28,9 @@ export async function mGET(req: Request, res: ResponseInterface) {
   });
   if (!url) {
     return new NextResponse(
-      JSON.stringify({ error: "The specified short URL does not exist" }),
+      JSON.stringify({
+        error: "The specified short URL does not exist or is inactive",
+      }),
       {
         status: 404,
       }

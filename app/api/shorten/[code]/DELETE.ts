@@ -1,4 +1,4 @@
-import { prisma } from "@/app/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
@@ -37,7 +37,7 @@ export async function mDELETE(req: Request, res: ResponseInterface) {
     where: {
       shortId: code,
       createdBy: {
-        email: session.user.email as string,
+        id: session.user.id as string,
       },
     },
   });

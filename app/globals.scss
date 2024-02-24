@@ -122,6 +122,10 @@ button {
   box-sizing: border-box;
   transition: .3s;
 
+  * {
+    cursor: pointer;
+  }
+
   input {
     display: none;
 

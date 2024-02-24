@@ -1,5 +1,3 @@
-"use client";
-
 export default function getUrl() {
   if (typeof window !== "undefined") {
     const { protocol, host } = window.location;

@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextApiResponse } from "next";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOptions";
 import { prisma } from "@/lib/prisma";
+import { authOptions } from "@/lib/authOptions";
+import { getServerSession } from "next-auth";
 
 export async function mGET(req: Request, res: NextApiResponse) {
   const session = await getServerSession(authOptions);
@@ -15,15 +15,22 @@ export async function mGET(req: Request, res: NextApiResponse) {
     );
   }
 
-  const urls = await prisma.url.findMany({
+  const user = await prisma.user.findFirst({
     where: {
-      createdBy: {
-        id: session.user.id as string,
-      },
+      id: session.user.id,
     },
   });
 
-  return new NextResponse(JSON.stringify({ urls }), {
+  if (!user) {
+    return new NextResponse(
+      JSON.stringify({ exists: false, error: "User does not exist" }),
+      {
+        status: 400,
+      }
+    );
+  }
+
+  return new NextResponse(JSON.stringify({ exists: true }), {
     status: 200,
   });
 }

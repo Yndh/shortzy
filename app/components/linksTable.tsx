@@ -17,7 +17,7 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 import Modal from "./Modal";
 import Input from "./input";
-import getUrl from "./url";
+import getUrl from "../../lib/getUrl";
 
 interface LinkTableProps {
   showActions?: boolean;
