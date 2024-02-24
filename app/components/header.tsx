@@ -49,7 +49,6 @@ export default function Header({
   }, []);
 
   const { data: session } = useSession();
-  console.log(session);
 
   const logoutHandler = () => {
     signOut();
