@@ -34,9 +34,6 @@ export default function Header({
     fetch("/api/session")
       .then((res) => res.json())
       .then((data) => {
-        console.log("User");
-        console.log(data);
-
         if (data.status === 400 || data.exists == false) {
           signOut();
           redirect("/login");
