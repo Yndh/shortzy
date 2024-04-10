@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🔗 Shortzy 
 
-## Getting Started
+Shortzy jest aplikacją do skracania długich linków. Projekt został zrobiony przy użyciu Next.js, Prisma oraz Next-Auth.
 
-First, run the development server:
+
+[🌎] Sprawdź teraz - https://www.shortzy.xyz/
+
+## Instalacja
+
+1. Sklonuj repozytorium:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+$ git clone https://github.com/Yndh/shortzy.git
+$ cd shortzy
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Uruchom aplikację 
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+.env
+```
+NEXTAUTH_URL = nextAuthUrl
+NEXTAUTH_SECRET = nextAuthSecret
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+DATABASE_URL = dbUrl
 
-## Learn More
+GOOGLE_CLIENT_ID = clientId
+GOOGLE_CLIENT_SECRET = googleSecret
+GITHUB_ID = githubId
+GITHUB_SECRET = githubSecret
+```
+cmd
+```bash
+$ npm install
+$ npx prisma db push
+$ npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Zdjęcia
+![Zdjęcie Aplikacji](https://media.discordapp.net/attachments/1214552490356248586/1227651739004440657/www.shortzy.xyz_.png?ex=66292ec7&is=6616b9c7&hm=3a6968b32a2bba25440b2878f5c934094a6b409e760de06fa9f24b647fcf6ce3&=&format=webp&quality=lossless&width=717&height=468)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![Zdjęcie Aplikacji](https://media.discordapp.net/attachments/1214552490356248586/1227651739537379328/www.shortzy.xyz_dashboard.png?ex=66292ec7&is=6616b9c7&hm=de2ed2bd112b57b6c77089be0d3c410c8d2dbce910995d79fd7cd10e5b500c61&=&format=webp&quality=lossless&width=749&height=468)
