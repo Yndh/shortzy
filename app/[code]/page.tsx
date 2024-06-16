@@ -24,12 +24,10 @@ export default function LinkRedirect({ params }: { params: { code: string } }) {
             router.push(og);
           })
           .catch((error) => {
-            console.error("Error fetching data:", error);
             setError(true);
           });
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
         setError(true);
       });
   }, []);

@@ -53,7 +53,7 @@ button {
   border-radius: 5px;
   text-wrap: nowrap;
   transition: .3s;
-  cursor: pointer;
+  cursor: pointer !important;
 
   &:hover {
     opacity: .8;
