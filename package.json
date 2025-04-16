@@ -4,10 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npx prisma generate && npx next build",
     "start": "next start",
-    "lint": "next lint",
-    "postinstall": "prisma generate && npx prisma db push"
+    "lint": "next lint"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.8.0",
