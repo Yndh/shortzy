@@ -10,14 +10,14 @@
     "postinstall": "prisma generate && npx prisma db push"
   },
   "dependencies": {
-    "@auth/prisma-adapter": "^1.2.0",
+    "@auth/prisma-adapter": "^2.8.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-brands-svg-icons": "^6.5.1",
     "@fortawesome/free-regular-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@prisma/client": "^5.9.1",
-    "next": "14.0.4",
+    "next": "^14.2.28",
     "next-auth": "^4.24.5",
     "qrcode.react": "^3.1.0",
     "react": "^18",
