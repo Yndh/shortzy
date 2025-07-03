@@ -24,9 +24,6 @@ export default async function LinkRedirect({ params }: Props) {
     const data = await res.json();
     const originalUrl = data.og.replace(/;307;?$/, "");
 
-    console.log("====");
-    console.log(originalUrl);
-
     await fetch(`${process.env.NEXTAUTH_URL}/api/clicks/${code}`, {
       method: "POST",
       cache: "no-store",

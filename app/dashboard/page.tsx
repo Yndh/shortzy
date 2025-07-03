@@ -1,10 +1,10 @@
 import styles from "../dashboard.module.scss";
 import LinksTable from "../components/linksTable";
 import Header from "../components/header";
-import SwitchToggleButton from "../components/switchToggleButton";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
+import { authOptions } from "@/lib/authOptions";
 
 export const metadata: Metadata = {
   title: "Shortzy | Dashboard",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Dashboard() {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!session) {
     redirect("/login");
   }

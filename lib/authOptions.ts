@@ -18,34 +18,33 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    session: ({ session, token }) => {
+    session: async ({ session }) => {
+      if (!session?.user?.email) {
+        return session;
+      }
+
+      const userInDb = await prisma.user.findUnique({
+        where: { email: session.user.email },
+        select: { id: true },
+      });
+
       return {
         ...session,
         user: {
           ...session.user,
-          id: token.id,
-          randomKey: token.randomKey,
+          id: userInDb?.id,
         },
       };
     },
-    jwt: ({ token, user }) => {
-      if (user) {
-        const u = user as unknown as any;
-        return {
-          ...token,
-          id: u.id,
-          randomKey: u.randomKey,
-        };
-      }
-      return token;
-    },
   },
+
   secret: process.env.NEXTAUTH_SECRET,
 
   pages: {
     signIn: "/login",
   },
+
   session: {
-    strategy: "jwt",
+    strategy: "database",
   },
 };
