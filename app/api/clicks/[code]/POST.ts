@@ -8,7 +8,7 @@ interface ResponseInterface<T = any> extends NextApiResponse<T> {
   };
 }
 
-export async function mGET(req: Request, res: ResponseInterface) {
+export async function mPOST(req: Request, res: ResponseInterface) {
   const code = res.params.code;
 
   if (!code) {

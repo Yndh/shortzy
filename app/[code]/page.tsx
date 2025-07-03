@@ -1,50 +1,64 @@
-"use client";
+"use server";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import styles from "@/app/notFound.module.scss";
 import Link from "next/link";
 
-export default function LinkRedirect({ params }: { params: { code: string } }) {
-  const [originalUrl, setOriginalUrl] = useState<string | null>(null);
-  const [error, setError] = useState(false);
+type Props = {
+  params: {
+    code: string;
+  };
+};
 
-  const router = useRouter();
+export default async function LinkRedirect({ params }: Props) {
+  const { code } = params;
 
-  useEffect(() => {
-    fetch(`/api/shorten/${params.code}`)
-      .then((res) => res.json())
-      .then((data) => {
-        const og = data.og;
-        setOriginalUrl(og);
+  try {
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/shorten/${code}`, {
+      cache: "no-store",
+    });
 
-        fetch(`/api/clicks/${params.code}`)
-          .then((res) => res.json())
-          .then((data) => {
-            router.push(og);
-          })
-          .catch((error) => {
-            setError(true);
-          });
-      })
-      .catch((error) => {
-        setError(true);
-      });
-  }, []);
+    if (!res.ok) {
+      throw new Error("Shortened link not found");
+    }
 
-  return (
-    <>
-      {error ? (
-        <div className={styles.main}>
-          <h1>Oops!</h1>
-          <p>It seems like this link is having a bit of a day off!</p>
-          <Link href="/">
-            <button>Let&apos;s go Home</button>
-          </Link>
-        </div>
-      ) : (
-        originalUrl && <p>Redirecting to: {originalUrl}</p>
-      )}
-    </>
-  );
+    const data = await res.json();
+    const originalUrl = data.og.replace(/;307;?$/, "");
+
+    console.log("====");
+    console.log(originalUrl);
+
+    await fetch(`${process.env.NEXTAUTH_URL}/api/clicks/${code}`, {
+      method: "POST",
+      cache: "no-store",
+    });
+
+    return (
+      <html>
+        <head>
+          <meta httpEquiv="refresh" content={`0;url=${originalUrl}`} />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.location.href = ${JSON.stringify(originalUrl)};`,
+            }}
+          />
+        </head>
+        <body>
+          <p>
+            Redirecting to <a href={originalUrl}>{originalUrl}</a>...
+          </p>
+        </body>
+      </html>
+    );
+  } catch (err) {
+    console.log(err);
+    return (
+      <div className={styles.main}>
+        <h1>Oops!</h1>
+        <p>It seems like this link is having a bit of a day off!</p>
+        <Link href="/">
+          <button>Let&apos;s go Home</button>
+        </Link>
+      </div>
+    );
+  }
 }
